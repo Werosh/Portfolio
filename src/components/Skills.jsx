@@ -104,7 +104,7 @@ const Skills = () => {
           className="mb-8 text-center text-gray-400"
           variants={itemVariants}
         >
-          Drag to Move & Hover or click on a skill to see proficiency level.
+          Drag to Move & Hover or click on a skill to see proficiency level...
         </motion.div>
 
         <div className="grid justify-center grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
@@ -273,7 +273,7 @@ const Skills = () => {
           className="mb-8 text-center text-gray-400"
           variants={itemVariants}
         >
-         Drag to Move & Hover or click on a skill to see proficiency level.
+         Drag to Move & Hover or click on a skill to see proficiency level...
         </motion.div>
 
         <div className="grid justify-center grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
