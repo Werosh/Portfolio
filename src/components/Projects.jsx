@@ -21,6 +21,13 @@ const projectsData = [
     link: "https://hebalhaven.netlify.app/",
   },
   {
+    title: "Buy Book Anywhere",
+    description:
+      "Hotel Sentry appears to be a platform offering hotel booking services. It provides features such as browsing hotel options, checking availability, and making reservations. The website is designed to help users find hotels in specific locations with an easy-to-navigate interface. For a more detailed overview of its offerings, you can visit the site directly:",
+    imgUrl: pro1, // Path to your video
+    link: "https://hotelsentry.netlify.app/",
+  },
+  {
     title: "Early Portfolio",
     description:
       "The Werosh K website is the personal portfolio of Werosh Kriyanjala, a software engineering student at the University of Moratuwa. The site showcases his technical skills and projects, including web development and software engineering work. It also highlights his academic background, passion for innovation, and commitment to professional growth. Visitors can explore his projects, such as a salon inventory software, and contact him for potential opportunities.",
