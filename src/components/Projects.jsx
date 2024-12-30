@@ -4,6 +4,7 @@ import pro1 from "../assets/images/project-images/bba.png";
 import pro2 from "../assets/images/project-images/hbv.png";
 import pro3 from "../assets/images/project-images/mp.png";
 import pro4 from "../assets/images/project-images/op.png";
+import pro5 from "../assets/images/project-images/hotelsen.png";
 
 const projectsData = [
   {
@@ -21,10 +22,10 @@ const projectsData = [
     link: "https://hebalhaven.netlify.app/",
   },
   {
-    title: "Buy Book Anywhere",
+    title: "Serenity Hotel",
     description:
       "Hotel Sentry appears to be a platform offering hotel booking services. It provides features such as browsing hotel options, checking availability, and making reservations. The website is designed to help users find hotels in specific locations with an easy-to-navigate interface. For a more detailed overview of its offerings, you can visit the site directly:",
-    imgUrl: pro1, // Path to your video
+    imgUrl: pro5, // Path to your video
     link: "https://hotelsentry.netlify.app/",
   },
   {
