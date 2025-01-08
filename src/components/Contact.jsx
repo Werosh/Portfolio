@@ -9,6 +9,7 @@ import {
   FaTelegram,
   FaPhoneSquare,
   FaHome,
+  FaGithub,
 } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 
@@ -88,6 +89,14 @@ const Contact = () => {
               <div className="flex flex-col">
                 {" "}
                 {/* Use flex column for vertical layout */}
+                <a
+                  href="https://github.com/Werosh"
+                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaGithub className="mr-2 text-xl text-purple-500" /> GitHub
+                </a>
                 <a
                   href="https://www.linkedin.com/in/werosh-kriyanjala-0318b1292/"
                   className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
