@@ -5,6 +5,7 @@ import pro2 from "../assets/images/project-images/hbv.png";
 import pro3 from "../assets/images/project-images/mp.png";
 import pro4 from "../assets/images/project-images/op.png";
 import pro5 from "../assets/images/project-images/hotelsen.png";
+import pro6 from "../assets/images/project-images/salon.jpg";
 
 const projectsData = [
   {
@@ -34,6 +35,13 @@ const projectsData = [
       "The Werosh K website is the personal portfolio of Werosh Kriyanjala, a software engineering student at the University of Moratuwa. The site showcases his technical skills and projects, including web development and software engineering work. It also highlights his academic background, passion for innovation, and commitment to professional growth. Visitors can explore his projects, such as a salon inventory software, and contact him for potential opportunities.",
     imgUrl: pro4, // Path to your video
     link: "https://weroshport.netlify.app/",
+  },
+  {
+    title: "Salon Inventory Management System",
+    description:
+      "Salon Inventory Management System is a worker-focused software designed to simplify and optimize inventory management for salon operations. It features tools for tracking stock, adding and editing items, managing suppliers, and recording daily sales. With its user-friendly interface and reliable functionality, it helps salon staff efficiently manage their inventory and streamline daily tasks.",
+    imgUrl: pro6, // Path to your video
+    
   },
   {
     title: "Movie Picker",
