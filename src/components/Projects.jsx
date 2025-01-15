@@ -6,8 +6,16 @@ import pro3 from "../assets/images/project-images/mp.png";
 import pro4 from "../assets/images/project-images/op.png";
 import pro5 from "../assets/images/project-images/hotelsen.png";
 import pro6 from "../assets/images/project-images/salon.jpg";
+import pro7 from "../assets/images/project-images/bluh.png";
 
 const projectsData = [
+  {
+    title: "Group Portfolio",
+    description:
+      "The Bluh Bluh DEV website serves as a personal portfolio and informational platform for a developer. It allows visitors to explore the developer's work, learn about their skills and expertise, and connect with them through the provided contact details. The site features a minimalist design, emphasizing ease of navigation and a professional presentation of the developer's profile and projects.",
+    imgUrl: pro7,
+    link: "https://bluhbluhdev.netlify.app/",
+  },
   {
     title: "Buy Book Anywhere",
     description:
