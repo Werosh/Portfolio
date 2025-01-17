@@ -7,7 +7,7 @@ const Hero = () => {
   const textToType = [
     { text: "Werosh Kriyanjala", color: "#fdfbd4" },
     { text: "a Software Engineer", color: "#32cd32" },
-    { text: "a Web Developer", color: "#FFD700" },
+    { text: "a Front-End Web Developer", color: "#FFD700" },
     { text: "a Youtuber", color: "#FF0000" },
   ];
 
