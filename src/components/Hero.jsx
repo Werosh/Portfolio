@@ -5,10 +5,10 @@ const Hero = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const textToType = [
-    { text: "Werosh Kriyanjala", color: "#fdfbd4" },
-    { text: "a Software Engineer", color: "#32cd32" },
-    { text: "a Front-End Web Developer", color: "#FFD700" },
-    { text: "a Youtuber", color: "#FF0000" },
+    { text: "Werosh Kriyanjala", color: "#1d4ed8" },
+    { text: "a Software Engineer", color: "#15803d" },
+    { text: "a Front-End Web Developer", color: "#d97706" },
+    { text: "a Youtuber", color: "#dc2626" },
   ];
 
   useEffect(() => {
@@ -37,17 +37,17 @@ const Hero = () => {
     if (currentTextIndex < textToType.length) {
       return textToType[currentTextIndex].color;
     }
-    return "white"; // Default color
+    return "black"; // Default color
   };
 
   return (
     <div
       id="hero"
-      className="relative w-full h-screen overflow-hidden text-white"
+      className="relative w-full h-screen overflow-hidden text-gray-800 dark:from-gray-900 dark:to-black"
     >
       {/* Animated Background Elements */}
       <motion.div
-        className="absolute bg-purple-700 rounded-full w-96 h-96 filter blur-3xl opacity-20"
+        className="absolute bg-blue-200 rounded-full w-96 h-96 filter blur-3xl opacity-30 dark:bg-blue-800"
         initial={{ x: "-100vw", y: "-50vh" }}
         animate={{
           x: ["-100vw", "100vw", "-100vw"],
@@ -56,7 +56,7 @@ const Hero = () => {
         transition={{ duration: 10, repeat: Infinity, repeatType: "loop" }}
       />
       <motion.div
-        className="absolute bg-indigo-600 rounded-full w-72 h-72 filter blur-3xl opacity-30"
+        className="absolute bg-green-200 rounded-full w-72 h-72 filter blur-3xl opacity-30 dark:bg-green-800"
         initial={{ x: "100vw", y: "50vh" }}
         animate={{
           x: ["100vw", "-100vw", "100vw"],
@@ -68,7 +68,7 @@ const Hero = () => {
       {/* Hero Content */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
         <motion.h1
-          className="text-4xl font-extrabold leading-tight tracking-wide md:text-6xl"
+          className="text-4xl font-extrabold leading-tight tracking-wide text-gray-800 dark:text-gray-100 md:text-6xl"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5 }}
@@ -79,11 +79,11 @@ const Hero = () => {
             style={{ color: getCurrentTextColor() }}
           >
             {displayedText}
-            <span className="absolute -right-[2px] top-[0.15em] h-[0.9em] w-[3px] bg-white animate-pulse"></span>
+            <span className="absolute -right-[2px] top-[0.15em] h-[0.9em] w-[3px] bg-gray-800 dark:bg-gray-100 animate-pulse"></span>
           </span>
         </motion.h1>
         <motion.p
-          className="mt-4 text-lg text-gray-300 md:text-xl"
+          className="mt-4 text-lg text-gray-600 dark:text-gray-300 md:text-xl"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.5, delay: 0.5 }}
@@ -97,20 +97,20 @@ const Hero = () => {
 
         {/* Call to Action Buttons */}
         <motion.div
-          className="mt-8 flex gap-4 text-[21px] font-bold font-akaya "
+          className="mt-8 flex gap-4 text-[21px] font-bold font-akaya"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 1 }}
         >
           <a
             href="#projects"
-            className="px-6 py-3 bg-[hsl(205,63%,20%)] text-white  rounded-lg shadow-lg hover:bg-[hsl(205,63%,30%)] transition duration-300"
+            className="px-6 py-3 text-white transition duration-300 bg-blue-600 rounded-lg shadow-lg hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-700"
           >
             View My Projects
           </a>
           <a
             href="#contact"
-            className="px-6 py-3 text-white transition duration-300 bg-gray-700 rounded-lg shadow-lg hover:bg-gray-600"
+            className="px-6 py-3 text-white transition duration-300 bg-gray-800 rounded-lg shadow-lg hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600"
           >
             Contact Me
           </a>

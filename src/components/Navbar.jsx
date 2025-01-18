@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { TbBrandGoogleHome } from "react-icons/tb";
 import { SiSimplenote, SiRetool } from "react-icons/si";
@@ -9,6 +9,25 @@ import { CgCloseO } from "react-icons/cg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  // Toggle Dark Mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+  };
+
+  // Persist dark mode state in local storage
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode) {
+      setIsDarkMode(JSON.parse(savedMode));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
+    document.documentElement.classList.toggle("dark", isDarkMode);
+  }, [isDarkMode]);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -25,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-50 w-full text-white bg-gray-900 shadow-md">
+    <nav className="fixed top-0 z-50 w-full text-white bg-gray-900 shadow-md dark:bg-gray-800">
       <div className="flex items-center justify-between p-4 mx-auto max-w-7xl">
         {/* Logo */}
         <motion.div
@@ -41,13 +60,11 @@ const Navbar = () => {
 
         {/* Menu for larger screens */}
         <div className="hidden gap-8 text-lg md:flex">
-          {[
-            { href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
+          {[{ href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
             { href: "#about", icon: <SiSimplenote />, label: "About" },
             { href: "#projects", icon: <SiRetool />, label: "Projects" },
             { href: "#skills", icon: <LuBrainCircuit />, label: "Skills" },
-            { href: "#contact", icon: <BiSolidContact />, label: "Contact" },
-          ].map((link, index) => (
+            { href: "#contact", icon: <BiSolidContact />, label: "Contact" }].map((link, index) => (
             <motion.a
               key={index}
               href={link.href}
@@ -68,16 +85,26 @@ const Navbar = () => {
           <button
             onClick={toggleMenu}
             className="text-2xl transition duration-300 hover:text-primary"
+            aria-label="Toggle menu"
           >
             {isOpen ? <CgCloseO /> : <VscSettingsGear />}
           </button>
         </div>
+
+        {/* Dark Mode Toggle */}
+        {/* <div className="ml-4">
+          <button
+            onClick={toggleDarkMode}
+            className="text-2xl transition duration-300 hover:text-primary"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? "🌞" : "🌙"}
+          </button>
+        </div> */}
       </div>
 
       {/* Mobile Menu */}
       <AnimatePresence>
-        {" "}
-        {/* Use AnimatePresence */}
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -87,17 +114,11 @@ const Navbar = () => {
             className="bg-gray-800 md:hidden"
           >
             <ul className="flex flex-col items-center gap-4 py-4">
-              {[
-                { href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
+              {[{ href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
                 { href: "#about", icon: <SiSimplenote />, label: "About" },
                 { href: "#projects", icon: <SiRetool />, label: "Projects" },
                 { href: "#skills", icon: <LuBrainCircuit />, label: "Skills" },
-                {
-                  href: "#contact",
-                  icon: <BiSolidContact />,
-                  label: "Contact",
-                },
-              ].map((link, index) => (
+                { href: "#contact", icon: <BiSolidContact />, label: "Contact" }].map((link, index) => (
                 <motion.li
                   key={index}
                   variants={linkVariants}

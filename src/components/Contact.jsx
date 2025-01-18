@@ -39,7 +39,7 @@ const Contact = () => {
       <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-gray-900 via-transparent to-transparent opacity-10"></div>
       <div className="container relative z-10 px-4 mx-auto">
         <motion.h2
-          className="mb-12 text-4xl font-bold text-center text-white"
+          className="mb-12 text-4xl font-bold text-center text-black dark:text-white"
           variants={itemVariants}
         >
           Contact Me
