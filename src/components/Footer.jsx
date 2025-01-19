@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Footer = () => {
   return (
-    <div className="relative py-6 overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-black">
+    <div className="relative py-6 overflow-hidden ">
       {/* Glowing Effects */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute bg-teal-500 rounded-full top-1/3 left-1/4 w-96 h-96 blur-3xl opacity-30 animate-pulse"></div>
@@ -11,7 +11,7 @@ const Footer = () => {
       </div>
 
       <motion.div
-        className="space-y-2 text-center text-white"
+        className="space-y-2 text-center dark:text-white"
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1 }}
