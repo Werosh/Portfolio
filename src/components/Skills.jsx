@@ -90,10 +90,10 @@ const Skills = () => {
       whileInView="visible"
       viewport={{ once: true }}
     >
-      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-gray-900 via-transparent to-transparent opacity-10 dark:opacity-20"></div>
+      <div className="absolute inset-0 rounded-full pointer-events-none bg-gradient-radial from-gray-900 via-transparent to-transparent opacity-10 dark:opacity-20"></div>
       <div className="container relative z-10 px-4 mx-auto">
         <motion.h2
-          className="mb-12 text-4xl font-bold text-center text-black dark:text-gray-100"
+          className="mb-10 text-5xl font-bold text-center text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text"
           variants={itemVariants}
         >
           My Skills
@@ -106,7 +106,7 @@ const Skills = () => {
           Drag to Move & Hover or click on a skill to see proficiency level...
         </motion.div>
 
-        <div className="grid justify-center grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5">
+        <div className="grid justify-center grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-5 ">
           {skillsData.map((skill, index) => {
             const x = useMotionValue(0);
             const y = useMotionValue(0);
@@ -116,7 +116,7 @@ const Skills = () => {
             return (
               <motion.div
                 key={index}
-                className="relative flex flex-col items-center justify-center p-4 bg-gray-800 rounded-lg group dark:bg-gray-700"
+                className="relative flex flex-col items-center justify-center p-4 bg-gray-800 rounded-[10px] group dark:bg-gray-700"
                 style={{ x, y, rotateX, rotateY, z: 100 }}
                 drag
                 dragElastic={0.16}
@@ -126,19 +126,19 @@ const Skills = () => {
                 onMouseLeave={() => setHoveredSkill(null)}
                 variants={itemVariants}
               >
-                <div className="absolute inset-0 z-10 bg-black opacity-20 dark:bg-black dark:opacity-40"></div>
+                <div className="absolute inset-0 z-10 bg-white opacity-50 dark:bg-black dark:opacity-40"></div>
                 <img
                   src={skill.imageUrl}
                   alt={skill.name}
                   className="relative z-10 object-contain w-16 h-16 mb-2 rounded-sm"
                 />
                 <div className="flex items-center">
-                  <p className="relative z-10 mr-2 font-medium text-white dark:text-gray-100">
+                  <p className="relative z-10 mr-2 font-medium text-black dark:text-gray-100">
                     {skill.name}
                   </p>
                   {hoveredSkill === skill.name && (
                     <motion.span
-                      className="relative z-10 text-sm font-bold text-purple-400 dark:text-purple-500"
+                      className="relative z-10 text-sm font-bold text-purple-700 dark:text-purple-500"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                     >
@@ -149,12 +149,12 @@ const Skills = () => {
 
                 {hoveredSkill === skill.name && (
                   <motion.div
-                    className="absolute bottom-0 left-0 w-full h-2 mt-2 overflow-hidden bg-gray-700 rounded-b-lg dark:bg-gray-600"
+                    className="absolute bottom-0 left-0 w-full h-2 mt-2 overflow-hidden bg-gray-800 rounded-b-lg dark:bg-gray-600"
                     initial={{ scaleX: 0 }}
                     animate={{ scaleX: skill.level / 100 }}
                     transition={{ duration: 0.8, ease: "easeInOut" }}
                   >
-                    <div className="h-full bg-purple-500"></div>
+                    <div className="h-full bg-black dark:bg-purple-500"></div>
                   </motion.div>
                 )}
               </motion.div>

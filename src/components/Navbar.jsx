@@ -11,18 +11,18 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Toggle Dark Mode
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  // // Toggle Dark Mode
+  // const toggleDarkMode = () => {
+  //   setIsDarkMode(!isDarkMode);
+  // };
 
-  // Persist dark mode state in local storage
-  useEffect(() => {
-    const savedMode = localStorage.getItem("darkMode");
-    if (savedMode) {
-      setIsDarkMode(JSON.parse(savedMode));
-    }
-  }, []);
+  // // Persist dark mode state in local storage
+  // useEffect(() => {
+  //   const savedMode = localStorage.getItem("darkMode");
+  //   if (savedMode) {
+  //     setIsDarkMode(JSON.parse(savedMode));
+  //   }
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
@@ -44,7 +44,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 z-50 w-full text-white bg-gray-900 shadow-md dark:bg-gray-800">
+    <nav className="fixed top-0 z-50 w-full bg-gray-400 shadow-md dark:text-white dark:bg-gray-800">
       <div className="flex items-center justify-between p-4 mx-auto max-w-7xl">
         {/* Logo */}
         <motion.div
@@ -111,7 +111,7 @@ const Navbar = () => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.5 }}
-            className="bg-gray-800 md:hidden"
+            className="dark:bg-gray-800 md:hidden"
           >
             <ul className="flex flex-col items-center gap-4 py-4">
               {[{ href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },

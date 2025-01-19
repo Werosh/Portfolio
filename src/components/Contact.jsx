@@ -1,5 +1,5 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaFacebook,
   FaInstagram,
@@ -14,142 +14,154 @@ import {
 import { MdEmail } from "react-icons/md";
 
 const Contact = () => {
+  const [hoveredIcon, setHoveredIcon] = useState(null);
+  const [activeSection, setActiveSection] = useState("contact");
+
   const containerVariants = {
-    hidden: { opacity: 0, y: 50 },
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      y: 0,
-      transition: { duration: 1, staggerChildren: 0.2 },
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
+  const cardVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 12,
+      },
+    },
   };
+
+  const iconVariants = {
+    hover: {
+      scale: 1.2,
+      rotate: 360,
+      transition: { duration: 0.5 },
+    },
+  };
+
+  const socialLinks = [
+    { icon: FaGithub, link: "https://github.com/Werosh", label: "GitHub" },
+    { icon: FaLinkedin, link: "https://www.linkedin.com/in/werosh-kriyanjala-0318b1292/", label: "LinkedIn" },
+    { icon: FaInstagram, link: "https://www.instagram.com/werosh_k/", label: "Instagram" },
+    { icon: FaFacebook, link: "https://www.facebook.com/werosh.kriyanjala.3", label: "Facebook" },
+    { icon: FaYoutube, link: "https://www.youtube.com/c/KiraGamingSL", label: "YouTube" },
+    { icon: FaWhatsappSquare, link: "https://wa.link/8yrqoc", label: "WhatsApp" },
+    { icon: FaTelegram, link: "https://t.me/Mr_WKz", label: "Telegram" },
+  ];
+
+  const contactInfo = [
+    { icon: MdEmail, value: "weroshprofy@gmail.com", link: "mailto:weroshprofy@gmail.com" },
+    { icon: FaPhoneSquare, value: "+94 76 94 96 250", link: "tel:+94769496250" },
+    { icon: FaHome, value: "Kurunegala, Sri Lanka", link: null },
+  ];
+
   return (
     <motion.section
       id="contact"
-      className="relative py-20 overflow-hidden text-gray-300"
+      className="py-20 text-gray-300 bg-gradient-to-b from-gray-900 to-black"
       variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
     >
-      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-gray-900 via-transparent to-transparent opacity-10"></div>
-      <div className="container relative z-10 px-4 mx-auto">
+      <div className="container px-4 mx-auto">
         <motion.h2
-          className="mb-12 text-4xl font-bold text-center text-black dark:text-white"
-          variants={itemVariants}
+          className="mb-16 text-5xl font-bold text-center text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text"
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 1 }}
+          transition={{ duration: 0.8 }}
         >
-          Contact Me
+          Let's Connect
         </motion.h2>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-          {/* Contact Information (Prioritized) */}
-          <motion.div variants={itemVariants}>
-            <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
-              <h3 className="mb-4 text-xl font-semibold text-white">
-                Get in Touch
-              </h3>
-              <div className="flex items-center mb-2">
-                <MdEmail className="mr-2 text-xl text-purple-500" />
-                <a
-                  href="mailto:weroshprofy@gmail.com"
-                  className="transition duration-300 hover:text-purple-400"
-                >
-                  weroshprofy@gmail.com
-                </a>{" "}
-                {/* Replace with your email */}
-              </div>
-              <div className="flex items-center mb-2">
-                <FaPhoneSquare className="mr-2 text-xl text-purple-500" />
-                <a
-                  href="tel:+94769496250"
-                  className="transition duration-300 hover:text-purple-400"
-                >
-                  +94 76 94 96 250
-                </a>{" "}
-                {/* Replace with your phone number */}
-              </div>
-              <div className="flex items-center">
-                <FaHome className="mr-2 text-xl text-purple-500" />
-                <p> Kurunegala , Sri Lanka</p>{" "}
-                {/* Replace with your address (optional) */}
+          <motion.div
+            variants={cardVariants}
+            className="relative group"
+          >
+            <div className="p-8 transition-all duration-300 transform bg-gray-500 shadow-2x5l dark:bg-gray-800 rounded-xl group-hover:scale-105 ">
+              <h3 className="mb-6 text-2xl font-semibold text-purple-400">Contact Information</h3>
+              <div className="space-y-4">
+                {contactInfo.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex items-center space-x-3"
+                    whileHover={{ x: 10 }}
+                    transition={{ type: "spring", stiffness: 300 }}
+                  >
+                    <motion.div
+                      variants={iconVariants}
+                      whileHover="hover"
+                      className="text-2xl dark:text-purple-500"
+                    >
+                      <item.icon />
+                    </motion.div>
+                    {item.link ? (
+                      <a
+                        href={item.link}
+                        className="transition-colors duration-300 hover:text-purple-400"
+                      >
+                        {item.value}
+                      </a>
+                    ) : (
+                      <span>{item.value}</span>
+                    )}
+                  </motion.div>
+                ))}
               </div>
             </div>
           </motion.div>
 
-          {/* Social Media Links */}
-          <motion.div variants={itemVariants}>
-            <div className="p-6 bg-gray-800 rounded-lg shadow-lg">
-              <h3 className="mb-4 text-xl font-semibold text-white">
-                Connect on Social Media
-              </h3>
-              <div className="flex flex-col">
-                {" "}
-                {/* Use flex column for vertical layout */}
-                <a
-                  href="https://github.com/Werosh"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaGithub className="mr-2 text-xl text-purple-500" /> GitHub
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/werosh-kriyanjala-0318b1292/"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaLinkedin className="mr-2 text-xl text-purple-500" />{" "}
-                  LinkedIn
-                </a>
-                <a
-                  href="https://www.instagram.com/werosh_k/"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaInstagram className="mr-2 text-xl text-purple-500" />{" "}
-                  Instagram
-                </a>
-                <a
-                  href="https://www.facebook.com/werosh.kriyanjala.3"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaFacebook className="mr-2 text-xl text-purple-500" />{" "}
-                  Facebook
-                </a>
-                <a
-                  href="https://www.youtube.com/c/KiraGamingSL"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaYoutube className="mr-2 text-xl text-purple-500" /> YouTube
-                </a>
-                <a
-                  href="https://wa.link/8yrqoc"
-                  className="flex items-center mb-2 transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaWhatsappSquare className="mr-2 text-xl text-purple-500" />{" "}
-                  WhatsApp
-                </a>
-                <a
-                  href="https://t.me/Mr_WKz"
-                  className="flex items-center transition duration-300 hover:text-purple-400"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <FaTelegram className="mr-2 text-xl text-purple-500" />{" "}
-                  Telegram
-                </a>
+          <motion.div
+            variants={cardVariants}
+            className="relative group"
+          >
+            <div className="p-8 transition-all duration-300 transform bg-gray-500 shadow-2xl dark:bg-gray-800 rounded-xl group-hover:scale-105">
+              <h3 className="mb-6 text-2xl font-semibold text-purple-400">Social Networks</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {socialLinks.map((social, index) => (
+                  <motion.a
+                    key={index}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center p-2 space-x-3 transition-colors duration-300 rounded-lg hover:bg-gray-700"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onHoverStart={() => setHoveredIcon(index)}
+                    onHoverEnd={() => setHoveredIcon(null)}
+                  >
+                    <motion.div
+                      variants={iconVariants}
+                      whileHover="hover"
+                      className="text-2xl dark:text-purple-500"
+                    >
+                      <social.icon />
+                    </motion.div>
+                    <AnimatePresence>
+                      {hoveredIcon === index && (
+                        <motion.span
+                          initial={{ opacity: 0, x: -10 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          exit={{ opacity: 0, x: 10 }}
+                          className="dark:text-purple-400"
+                        >
+                          {social.label}
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </motion.a>
+                ))}
               </div>
             </div>
           </motion.div>

@@ -88,7 +88,7 @@ const Projects = () => {
 
       <div className="container relative z-10 px-4 mx-auto">
         <motion.h2
-          className="mb-12 text-4xl font-bold text-center text-gray-800 dark:text-white"
+          className="mb-16 text-5xl font-bold text-center text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text"
           variants={itemVariants}
         >
           My Projects
