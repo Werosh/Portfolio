@@ -109,18 +109,22 @@ const CyberAbout = () => {
             transition={{ delay: 0.2 }}
           >
             {[
-              {
-                title: "System.Profile",
-                content: "Enthusiastic software engineer specializing in modern web technologies and system architecture."
-              },
-              {
-                title: "Core.Skills",
-                content: "Proficient in full-stack development with expertise in React, Node.js, and cloud infrastructure."
-              },
-              {
-                title: "Current.Status",
-                content: "Actively developing innovative solutions and exploring cutting-edge technologies."
-              }
+             {
+              "title": "About.Me",
+              "content": "Passionate and dedicated software engineering undergraduate at the University of Moratuwa, with a strong foundation in problem-solving and a commitment to delivering high-quality solutions. I thrive on tackling complex challenges and continuously learning to stay ahead in the ever-evolving tech landscape."
+            },
+            {
+              "title": "System.Profile",
+              "content": "Enthusiastic software engineer specializing in modern web technologies and system architecture."
+            },
+            {
+              "title": "Core.Skills",
+              "content": "Proficient in full-stack development with expertise in React, Node.js, and cloud infrastructure."
+            },
+            {
+              "title": "Current.Status",
+              "content": "Actively developing innovative solutions and exploring cutting-edge technologies."
+            }
             ].map((section, index) => (
               <motion.div
                 key={index}
