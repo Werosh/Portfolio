@@ -190,12 +190,15 @@ const CyberSkills = () => {
           </div>
 
           <h2
-            className={`text-5xl font-bold text-green-400 ${
+            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-green-400 ${
               glitchText ? "animate-pulse" : ""
             }`}
           >
             {"<System_Capabilities />"}
           </h2>
+          <h3 className="mt-4">
+            {"ALERT!!! Don’t.touch_anything() || dragThem.nowExplodes();"}{" "}
+          </h3>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

@@ -147,7 +147,7 @@ const CyberProjects = () => {
             <span className="ml-2">ls -la projects/</span>
           </div>
 
-          <h2 className="text-5xl font-bold text-green-400">
+          <h2 className="text-2xl font-bold text-green-400 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {"<Project_Directory />"}
           </h2>
         </motion.div>

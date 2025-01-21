@@ -19,7 +19,7 @@ const App = () => {
     <Preloader/>
       <Back />
       <Navbar />
-      <ThemeButton />
+      {/* <ThemeButton /> */}
       <main className="text-black transition-colors duration-500 bg-white dark:bg-gray-900 dark:text-white">
         <Hero />
         <About />

@@ -107,7 +107,7 @@ const Contact = () => {
             <span className="ml-2">./initiate_connection.sh</span>
           </div>
           
-          <h2 className="text-5xl font-bold text-green-400">
+          <h2 className="text-2xl font-bold text-green-400 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
             {"<Establish_Connection />"}
           </h2>
         </motion.div>

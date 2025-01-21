@@ -51,7 +51,7 @@ const Preloader = ({ onLoadingComplete }) => {
       if (onLoadingComplete) {
         onLoadingComplete();
       }
-    }, 2500);
+    }, 1000);
     
     return () => {
       clearTimeout(timer);
@@ -148,8 +148,6 @@ const Preloader = ({ onLoadingComplete }) => {
           </div>
         </div>
       </div>
-
-      {/* ... (previous styles remain the same) ... */}
     </div>
   );
 };

@@ -113,7 +113,7 @@ const EnhancedHero = () => {
             <span className="ml-2">initialize.sh</span>
           </div>
 
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
+          <h1 className="text-2xl font-bold leading-tight md:text-6xl lg:text-7xl">
             I am{" "}
             <span className="relative inline-block" style={{ color: getCurrentTextColor() }}>
               <AnimatePresence mode="wait">
