@@ -1,119 +1,151 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import myImg from "../assets/images/my/dp.jpg";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Terminal, Code2, Cpu, Database, Globe } from 'lucide-react';
+import myImg from"../assets/images/my/dp.jpg"
 
-const About = () => {
+const CyberAbout = () => {
   const [isHovered, setIsHovered] = useState(false);
+  const [matrixRain, setMatrixRain] = useState([]);
+  const [currentSkill, setCurrentSkill] = useState(0);
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  const skills = [
+    { text: "Full Stack Development", icon: <Code2 className="w-6 h-6" />, color: "#22c55e" },
+    { text: "System Architecture", icon: <Cpu className="w-6 h-6" />, color: "#22d3ee" },
+    { text: "Database Engineering", icon: <Database className="w-6 h-6" />, color: "#a855f7" },
+    { text: "Web Technologies", icon: <Globe className="w-6 h-6" />, color: "#ef4444" },
+  ];
 
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-        damping: 12,
-      },
-    },
-  };
+  // Matrix rain effect
+  useEffect(() => {
+    const characters = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+    const generateRain = () => {
+      return Array.from({ length: 25 }, () => ({
+        x: Math.random() * 100,
+        y: -Math.random() * 100,
+        char: characters[Math.floor(Math.random() * characters.length)],
+        speed: 0.5 + Math.random() * 2,
+        opacity: Math.random(),
+      }));
+    };
 
-  const imageVariants = {
-    hidden: { scale: 0.8, opacity: 0, rotate: -180 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      rotate: 0,
-      transition: {
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-      },
-    },
-    hover: {
-      scale: 1.05,
-      boxShadow: "0px 0px 30px rgba(123, 31, 162, 0.5)",
-      transition: {
-        type: "spring",
-        stiffness: 300,
-        damping: 15,
-      },
-    },
-  };
+    setMatrixRain(generateRain());
+    const interval = setInterval(() => {
+      setMatrixRain(prev => 
+        prev.map(drop => ({
+          ...drop,
+          y: drop.y > 100 ? -10 : drop.y + drop.speed,
+          char: Math.random() < 0.1 ? characters[Math.floor(Math.random() * characters.length)] : drop.char,
+          opacity: Math.random(),
+        }))
+      );
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Skill rotation effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSkill((prev) => (prev + 1) % skills.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <motion.section
       id="about"
-      className="relative py-20 overflow-hidden text-gray-700 dark:text-gray-300"
-      variants={containerVariants}
+      className="relative min-h-screen py-20 overflow-hidden text-green-400 dark:bg-black bg-gradient-to-b from-black/50 via-transparent to-black/50"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
     >
-      <div className="absolute inset-0 pointer-events-none bg-gradient-radial from-transparent via-gray-300/10 to-transparent dark:via-gray-700/20 opacity-30"></div>
+      {/* Matrix Rain Background */}
+      <div className="absolute inset-0 opacity-20">
+        {matrixRain.map((drop, i) => (
+          <motion.div
+            key={i}
+            className="absolute font-mono text-xl text-green-500"
+            animate={{
+              y: [`${drop.y}%`, `${drop.y + 100}%`],
+              opacity: [drop.opacity, 0],
+            }}
+            transition={{
+              duration: drop.speed * 2,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            style={{ left: `${drop.x}%` }}
+          >
+            {drop.char}
+          </motion.div>
+        ))}
+      </div>
 
+      {/* Content Container */}
       <div className="container relative z-10 px-4 mx-auto">
-        <motion.h2
-          className="mb-16 text-5xl font-bold text-center text-transparent bg-gradient-to-r from-purple-600 to-blue-600 dark:from-purple-400 dark:to-blue-400 bg-clip-text"
-          variants={textVariants}
+        <motion.div
+          className="mb-16 font-mono text-center"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
         >
-          About Me
-        </motion.h2>
+          <div className="inline-block p-2 mb-4 text-sm border rounded-lg border-green-500/30 bg-black/50">
+            <span className="text-green-500">root@system</span>
+            <span className="text-gray-500">:</span>
+            <span className="text-blue-400">~/about</span>
+            <span className="text-gray-500">$</span>
+            <span className="ml-2">cat profile.sh</span>
+          </div>
+          
+          <h2 className="text-5xl font-bold text-green-400">
+            {"<About_Profile />"}
+          </h2>
+        </motion.div>
 
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          <motion.div variants={textVariants} className="space-y-6">
-            <motion.div
-              className="p-6 shadow-xl rounded-2xl"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-xl leading-relaxed">
-                I'm a passionate software engineer with a strong focus on building
-                modern and performant web applications. I thrive on challenges and
-                enjoy exploring new technologies to create innovative solutions.
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="p-6 shadow-xl rounded-2xl"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-xl leading-relaxed">
-                My background in computer science from the University of Moratuwa
-                has provided me with a solid foundation in software development
-                principles.
-              </p>
-            </motion.div>
-
-            <motion.div
-              className="p-6 shadow-xl rounded-2xl"
-              whileHover={{ y: -5 }}
-              transition={{ type: "spring", stiffness: 300 }}
-            >
-              <p className="text-xl leading-relaxed">
-                I'm particularly interested in front-end development using React
-                and modern JavaScript frameworks. I'm always eager to learn and
-                collaborate with other developers to push the boundaries of what's
-                possible on the web.
-              </p>
-            </motion.div>
+          <motion.div
+            className="space-y-6"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+          >
+            {[
+              {
+                title: "System.Profile",
+                content: "Enthusiastic software engineer specializing in modern web technologies and system architecture."
+              },
+              {
+                title: "Core.Skills",
+                content: "Proficient in full-stack development with expertise in React, Node.js, and cloud infrastructure."
+              },
+              {
+                title: "Current.Status",
+                content: "Actively developing innovative solutions and exploring cutting-edge technologies."
+              }
+            ].map((section, index) => (
+              <motion.div
+                key={index}
+                className="p-6 font-mono border rounded-lg border-green-500/30 bg-black/50 backdrop-blur-sm"
+                whileHover={{
+                  scale: 1.02,
+                  boxShadow: "0 0 20px rgba(34, 197, 94, 0.2)",
+                }}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Terminal className="w-5 h-5" />
+                  <span className="text-sm text-green-300">{section.title}</span>
+                </div>
+                <p className="text-lg leading-relaxed">
+                  <span className="text-gray-500">{">"}</span> {section.content}
+                </p>
+              </motion.div>
+            ))}
           </motion.div>
 
           <motion.div
-            variants={textVariants}
             className="flex flex-col items-center justify-center space-y-8"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4 }}
           >
             <motion.div
               className="relative group"
@@ -121,40 +153,55 @@ const About = () => {
               onHoverEnd={() => setIsHovered(false)}
             >
               <motion.div
-                className="relative overflow-hidden rounded-full w-72 h-72"
-                variants={imageVariants}
-                whileHover="hover"
+                className="relative overflow-hidden border-2 rounded-lg w-72 h-72 border-green-500/50"
+                whileHover={{ scale: 1.05 }}
               >
                 <img
                   src={myImg}
                   alt="Profile"
-                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover w-full h-full"
                 />
+                {/* Scanning line effect */}
                 <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20"
+                  className="absolute w-full h-1 bg-green-500/50"
                   animate={{
-                    opacity: isHovered ? 1 : 0,
+                    top: ["0%", "100%"],
                   }}
-                  transition={{ duration: 0.3 }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
                 />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
               </motion.div>
 
-              <motion.div
-                className="absolute rounded-full -inset-4 bg-gradient-to-r from-purple-500 to-blue-500 opacity-30 blur-lg -z-10"
-                animate={{
-                  scale: isHovered ? 1.1 : 1,
-                  opacity: isHovered ? 0.5 : 0.3,
-                }}
-              />
+              {/* Terminal-style skill display */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSkill}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="absolute left-0 right-0 p-4 text-center -bottom-20"
+                >
+                  <div className="flex items-center justify-center gap-2 p-2 font-mono text-lg border rounded-lg border-green-500/30 bg-black/90">
+                    {skills[currentSkill].icon}
+                    <span style={{ color: skills[currentSkill].color }}>
+                      {skills[currentSkill].text}
+                    </span>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </motion.div>
 
             <motion.a
               href="#contact"
-              className="px-8 py-4 text-lg font-semibold text-white transition-all duration-300 transform rounded-full shadow-lg bg-gradient-to-r from-purple-600 to-blue-600 hover:shadow-xl hover:-translate-y-1"
-              whileHover={{ scale: 1.05 }}
+              className="px-8 py-4 font-mono text-lg font-bold text-black transition-all bg-green-400 border rounded-lg hover:shadow-green-500/30 hover:scale-105 border-green-500/50"
+              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(34, 197, 94, 0.5)" }}
               whileTap={{ scale: 0.95 }}
             >
-              Let's Connect
+              {"<Initialize_Connection />"}
             </motion.a>
           </motion.div>
         </div>
@@ -163,4 +210,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default CyberAbout;

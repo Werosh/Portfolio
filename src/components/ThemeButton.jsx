@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { ThemeContext } from "../components/ThemeContext";
+import { Terminal, Sun, Moon } from "lucide-react";
 
 const ThemeButton = () => {
   const { darkMode, setDarkMode } = useContext(ThemeContext);
@@ -14,56 +15,55 @@ const ThemeButton = () => {
       aria-label="Toggle theme"
       role="button"
       className={`
-        fixed top-4 right-4 z-[48] w-16 h-8 
-        flex items-center rounded-full p-1 cursor-pointer shadow-lg mt-[50px]
+        fixed top-[70px] right-4 z-[40] w-20 h-10
+        flex items-center rounded-lg p-1 cursor-pointer 
         ${darkMode ? 
-          'bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700' : 
-          'bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100'
+          'bg-black border-2 border-cyan-500 shadow-[0_0_15px_rgba(6,182,212,0.5)]' : 
+          'bg-transparent border-2 border-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
         }
-        hover:shadow-xl transition-shadow duration-300
+        hover:scale-105 transition-all duration-300
+        before:content-[''] before:absolute before:inset-0 
+        before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent 
+        before:animate-[scan_2s_ease-in-out_infinite]
       `}
       onClick={toggleTheme}
-      initial={{ scale: 0.9 }}
-      animate={{ scale: 1 }}
-      whileTap={{ scale: 0.8 }}
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      whileTap={{ scale: 0.95 }}
     >
+      {/* <Terminal 
+        className={`absolute left-2 w-4 h-4 ${darkMode ? 'text-cyan-500' : 'text-orange-500'}`}
+      /> */}
       <motion.div
         className={`
-          flex items-center justify-center w-6 h-6 rounded-full shadow-md
+          flex items-center justify-center w-8 h-8 rounded 
           ${darkMode ?
-            'bg-gradient-to-br from-indigo-900 via-slate-800 to-slate-900' :
-            'bg-gradient-to-br from-amber-300 via-yellow-400 to-orange-400'
+            'bg-cyan-950 border border-cyan-500' :
+            'bg-orange-950 border border-orange-500'
           }
         `}
         layout
         animate={{
-          x: darkMode ? 24 : 0,
+          x: darkMode ? 32 : 0,
         }}
         transition={{
           type: "spring",
-          stiffness: 700,
+          stiffness: 500,
           damping: 30,
         }}
       >
-        {darkMode ? (
-          <motion.div
-            initial={{ opacity: 0, rotate: -45 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ duration: 0.2 }}
-            className="text-slate-200"
-          >
-            🌙
-          </motion.div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, rotate: 45 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            transition={{ duration: 0.2 }}
-            className="text-amber-600"
-          >
-            ☀️
-          </motion.div>
-        )}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.2 }}
+          className={darkMode ? 'text-cyan-500' : 'text-orange-500'}
+        >
+          {darkMode ? (
+            <Moon className="w-5 h-5" />
+          ) : (
+            <Sun className="w-5 h-5" />
+          )}
+        </motion.div>
       </motion.div>
     </motion.div>
   );

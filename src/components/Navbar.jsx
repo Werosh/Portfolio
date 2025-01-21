@@ -1,137 +1,151 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TbBrandGoogleHome } from "react-icons/tb";
+import { TbBrandGoogleHome, TbCircuitDiode } from "react-icons/tb";
 import { SiSimplenote, SiRetool } from "react-icons/si";
 import { LuBrainCircuit } from "react-icons/lu";
 import { BiSolidContact } from "react-icons/bi";
-import { VscSettingsGear } from "react-icons/vsc";
+import { VscTerminal } from "react-icons/vsc";
 import { CgCloseO } from "react-icons/cg";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  // // Toggle Dark Mode
-  // const toggleDarkMode = () => {
-  //   setIsDarkMode(!isDarkMode);
-  // };
-
-  // // Persist dark mode state in local storage
-  // useEffect(() => {
-  //   const savedMode = localStorage.getItem("darkMode");
-  //   if (savedMode) {
-  //     setIsDarkMode(JSON.parse(savedMode));
-  //   }
-  // }, []);
+  const [scrolled, setScrolled] = useState(false);
+  const [glitchText, setGlitchText] = useState(false);
 
   useEffect(() => {
-    localStorage.setItem("darkMode", JSON.stringify(isDarkMode));
-    document.documentElement.classList.toggle("dark", isDarkMode);
-  }, [isDarkMode]);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+    setGlitchText(true);
+    setTimeout(() => setGlitchText(false), 1000);
   };
 
   const linkVariants = {
-    hidden: { opacity: 0, y: -20 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0 },
   };
 
   const logoVariants = {
     hidden: { opacity: 0, scale: 0.8 },
-    visible: { opacity: 1, scale: 1 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 0.5,
+        yoyo: Infinity,
+        ease: "easeInOut",
+      },
+    },
   };
 
+  const navClasses = `fixed top-0 z-50 w-full backdrop-blur-md dark:bg-black/70 border-b ${
+    scrolled ? "border-green-500/50" : "border-green-500/20"
+  }`;
+
   return (
-    <nav className="fixed top-0 z-50 w-full bg-gray-400 shadow-md dark:text-white dark:bg-gray-800">
+    <nav className={navClasses}>
       <div className="flex items-center justify-between p-4 mx-auto max-w-7xl">
-        {/* Logo */}
         <motion.div
-          className="flex items-center gap-2 text-xl font-bold"
+          className="flex items-center gap-2 font-mono text-xl"
           variants={logoVariants}
           initial="hidden"
           animate="visible"
-          transition={{ duration: 1 }}
         >
-          <VscSettingsGear className="text-primary animate-spin" />
-          <span>Werosh Kriyanjala</span>
+          <TbCircuitDiode className="text-green-500 animate-pulse" />
+          <span
+            className={`text-green-400 ${glitchText ? "animate-pulse" : ""}`}
+          >
+            ./werosh_kriyanjala
+          </span>
         </motion.div>
 
-        {/* Menu for larger screens */}
         <div className="hidden gap-8 text-lg md:flex">
-          {[{ href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
-            { href: "#about", icon: <SiSimplenote />, label: "About" },
-            { href: "#projects", icon: <SiRetool />, label: "Projects" },
-            { href: "#skills", icon: <LuBrainCircuit />, label: "Skills" },
-            { href: "#contact", icon: <BiSolidContact />, label: "Contact" }].map((link, index) => (
+          {[
+            { href: "#hero", icon: <TbBrandGoogleHome />, label: "HOME:/" },
+            { href: "#about", icon: <SiSimplenote />, label: "ABOUT.txt" },
+            { href: "#projects", icon: <SiRetool />, label: "PROJECTS.exe" },
+            { href: "#skills", icon: <LuBrainCircuit />, label: "SKILLS.sys" },
+            { href: "#contact", icon: <BiSolidContact />, label: "CONTACT.sh" },
+          ].map((link, index) => (
             <motion.a
               key={index}
               href={link.href}
-              className="flex items-center gap-2 transition duration-300 hover:text-primary"
+              className="flex items-center gap-2 font-mono text-green-400 transition-all duration-300 hover:text-green-200 hover:scale-110 group"
               variants={linkVariants}
               initial="hidden"
               animate="visible"
-              transition={{ duration: 0.8, delay: index * 0.2 }} // Staggered delay
-              whileHover={{ scale: 1.2 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+              whileHover={{ y: -2 }}
             >
-              {link.icon} {link.label}
+              <span className="text-green-500 group-hover:animate-ping">
+                {link.icon}
+              </span>
+              <span className="group-hover:tracking-wider">{link.label}</span>
             </motion.a>
           ))}
         </div>
 
-        {/* Hamburger Menu for Mobile */}
         <div className="md:hidden">
           <button
             onClick={toggleMenu}
-            className="text-2xl transition duration-300 hover:text-primary"
+            className="text-2xl text-green-400 transition duration-300 hover:text-green-200"
             aria-label="Toggle menu"
           >
-            {isOpen ? <CgCloseO /> : <VscSettingsGear />}
+            {isOpen ? <CgCloseO /> : <VscTerminal />}
           </button>
         </div>
-
-        {/* Dark Mode Toggle */}
-        {/* <div className="ml-4">
-          <button
-            onClick={toggleDarkMode}
-            className="text-2xl transition duration-300 hover:text-primary"
-            aria-label="Toggle dark mode"
-          >
-            {isDarkMode ? "🌞" : "🌙"}
-          </button>
-        </div> */}
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
-            className="dark:bg-gray-800 md:hidden"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
+            className="border-t bg-black/90 backdrop-blur-md md:hidden border-green-500/20"
           >
             <ul className="flex flex-col items-center gap-4 py-4">
-              {[{ href: "#hero", icon: <TbBrandGoogleHome />, label: "Home" },
-                { href: "#about", icon: <SiSimplenote />, label: "About" },
-                { href: "#projects", icon: <SiRetool />, label: "Projects" },
-                { href: "#skills", icon: <LuBrainCircuit />, label: "Skills" },
-                { href: "#contact", icon: <BiSolidContact />, label: "Contact" }].map((link, index) => (
+              {[
+                { href: "#hero", icon: <TbBrandGoogleHome />, label: "HOME:/" },
+                { href: "#about", icon: <SiSimplenote />, label: "ABOUT.txt" },
+                {
+                  href: "#projects",
+                  icon: <SiRetool />,
+                  label: "PROJECTS.exe",
+                },
+                {
+                  href: "#skills",
+                  icon: <LuBrainCircuit />,
+                  label: "SKILLS.sys",
+                },
+                {
+                  href: "#contact",
+                  icon: <BiSolidContact />,
+                  label: "CONTACT.sh",
+                },
+              ].map((link, index) => (
                 <motion.li
                   key={index}
                   variants={linkVariants}
                   initial="hidden"
                   animate="visible"
                   exit="hidden"
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
                 >
                   <a
                     href={link.href}
-                    className="flex items-center gap-2 text-lg transition duration-300 hover:text-primary"
+                    className="flex items-center gap-2 font-mono text-lg text-green-400 transition-all duration-300 hover:text-green-200"
+                    onClick={() => setIsOpen(false)}
                   >
-                    {link.icon} {link.label}
+                    <span className="text-green-500">{link.icon}</span>
+                    {link.label}
                   </a>
                 </motion.li>
               ))}

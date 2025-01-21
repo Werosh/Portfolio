@@ -1,39 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { Terminal, ChevronDown, Code2, Cpu } from "lucide-react";
 
 const EnhancedHero = () => {
   const [displayedText, setDisplayedText] = useState("");
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
-  
+  const [matrixRain, setMatrixRain] = useState([]);
+
   const textToType = [
-    { text: "Werosh Kriyanjala", color: "#1d4ed8", icon: "👨‍💻" },
-    { text: "a Software Engineer", color: "#15803d", icon: "⚡" },
-    { text: "a Front-End Developer", color: "#d97706", icon: "🎨" },
-    { text: "a Youtuber", color: "#dc2626", icon: "🎥" },
+    { text: "Werosh Kriyanjala", color: "#22c55e", icon: <Terminal className="w-8 h-8" /> },
+    { text: "Software.engineer", color: "#22d3ee", icon: <Cpu className="w-8 h-8" /> },
+    { text: "Frontend.dev()", color: "#a855f7", icon: <Code2 className="w-8 h-8" /> },
+    { text: "Content.creator()", color: "#ef4444", icon: <Terminal className="w-8 h-8" /> },
   ];
 
+  // Matrix rain effect
+  useEffect(() => {
+    const characters = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
+    const generateRain = () => {
+      return Array.from({ length: 25 }, () => ({
+        x: Math.random() * 100,
+        y: -Math.random() * 100,
+        char: characters[Math.floor(Math.random() * characters.length)],
+        speed: 0.8 + Math.random() * 1.5,
+        opacity: Math.random() * 0.7 + 0.3,
+      }));
+    };
+
+    setMatrixRain(generateRain());
+    const interval = setInterval(() => {
+      setMatrixRain((prev) =>
+        prev.map((drop) => ({
+          ...drop,
+          y: drop.y > 100 ? -10 : drop.y + drop.speed,
+          char: Math.random() < 0.1 ? characters[Math.floor(Math.random() * characters.length)] : drop.char,
+          opacity: Math.random() * 0.7 + 0.3,
+        }))
+      );
+    }, 60);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Typing effect
   useEffect(() => {
     let timeout;
     const currentTextObj = textToType[currentTextIndex];
     const currentText = currentTextObj.text;
-    
+
     if (!isDeleting && displayedText.length < currentText.length) {
-      // Typing effect
       timeout = setTimeout(() => {
         setDisplayedText(currentText.substring(0, displayedText.length + 1));
-      }, Math.random() * 50 + 30); // Random delay for more natural typing
+      }, 100);
     } else if (!isDeleting && displayedText.length === currentText.length) {
-      // Pause at the end of typing
-      timeout = setTimeout(() => setIsDeleting(true), 1500);
+      timeout = setTimeout(() => setIsDeleting(true), 2500);
     } else if (isDeleting && displayedText.length > 0) {
-      // Deleting effect
       timeout = setTimeout(() => {
         setDisplayedText(displayedText.substring(0, displayedText.length - 1));
-      }, Math.random() * 30 + 20);
+      }, 50);
     } else if (isDeleting && displayedText.length === 0) {
-      // Move to next text
       setIsDeleting(false);
       setCurrentTextIndex((prevIndex) => (prevIndex + 1) % textToType.length);
     }
@@ -41,56 +67,66 @@ const EnhancedHero = () => {
     return () => clearTimeout(timeout);
   }, [displayedText, currentTextIndex, isDeleting]);
 
-  const getCurrentTextColor = () => {
-    return textToType[currentTextIndex].color || "black";
-  };
+  const getCurrentTextColor = () => textToType[currentTextIndex].color;
 
   return (
-    <div id="hero" className="relative w-full h-screen overflow-hidden text-gray-800 dark:text-gray-100">
-      {/* Animated Background Gradients */}
-      <motion.div
-        className="absolute rounded-full bg-gradient-to-r from-blue-200/30 to-purple-200/30 w-96 h-96 filter blur-3xl dark:from-blue-800/30 dark:to-purple-800/30"
-        initial={{ x: "-100vw", y: "-50vh", scale: 0.8 }}
-        animate={{
-          x: ["-100vw", "100vw", "-100vw"],
-          y: ["0vh", "50vh", "0vh"],
-          scale: [0.8, 1.2, 0.8],
-        }}
-        transition={{ duration: 20, repeat: Infinity, repeatType: "loop" }}
-      />
-      <motion.div
-        className="absolute rounded-full bg-gradient-to-r from-green-200/30 to-yellow-200/30 w-72 h-72 filter blur-3xl dark:from-green-800/30 dark:to-yellow-800/30"
-        initial={{ x: "100vw", y: "50vh", scale: 1.2 }}
-        animate={{
-          x: ["100vw", "-100vw", "100vw"],
-          y: ["50vh", "-50vh", "50vh"],
-          scale: [1.2, 0.8, 1.2],
-        }}
-        transition={{ duration: 25, repeat: Infinity, repeatType: "loop" }}
-      />
+    <div id="hero" className="relative w-full h-screen overflow-hidden text-green-400 dark:bg-black">
+      {/* Matrix Rain Background */}
+      <div className="absolute inset-0 opacity-20">
+        {matrixRain.map((drop, i) => (
+          <motion.div
+            key={i}
+            className="absolute font-mono text-xl text-green-500"
+            animate={{
+              y: [`${drop.y}%`, `${drop.y + 100}%`],
+              opacity: [drop.opacity, 0],
+            }}
+            transition={{
+              duration: drop.speed * 2,
+              repeat: Infinity,
+              ease: "easeInOut",
+            }}
+            style={{ left: `${drop.x}%` }}
+          >
+            {drop.char}
+          </motion.div>
+        ))}
+      </div>
+
+      {/* Glitch Overlay */}
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/50 via-transparent to-black/50" />
 
       {/* Content Container */}
       <div className="relative z-20 flex flex-col items-center justify-center h-full px-4 text-center">
-        {/* Main Heading */}
+        {/* Terminal-like Header */}
         <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: -50 }}
+          className="mb-8 font-mono"
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
+          transition={{ duration: 1, ease: "easeOut" }}
         >
-          <h1 className="text-4xl font-extrabold leading-tight md:text-6xl lg:text-7xl">
+          <div className="inline-block p-2 mb-4 text-sm border rounded-lg border-green-500/30 bg-black/50">
+            <span className="text-green-500">root@system</span>
+            <span className="text-gray-500">:</span>
+            <span className="text-blue-400">~/identity</span>
+            <span className="text-gray-500">$</span>
+            <span className="ml-2">initialize.sh</span>
+          </div>
+
+          <h1 className="text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
             I am{" "}
             <span className="relative inline-block" style={{ color: getCurrentTextColor() }}>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentTextIndex}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="inline-flex items-center"
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.5, ease: "easeOut" }}
+                  className="inline-flex items-center gap-4"
                 >
                   {displayedText}
-                  <span className="ml-2">{textToType[currentTextIndex].icon}</span>
+                  {textToType[currentTextIndex].icon}
                 </motion.span>
               </AnimatePresence>
               <span className="absolute -right-[2px] top-[0.15em] h-[0.9em] w-[3px] bg-current animate-pulse" />
@@ -98,46 +134,51 @@ const EnhancedHero = () => {
           </h1>
         </motion.div>
 
-        {/* Description */}
-        <motion.p
-          className="max-w-2xl mx-auto mt-6 text-lg text-gray-600 dark:text-gray-300 md:text-xl"
+        {/* Description with Tech Style */}
+        <motion.div
+          className="max-w-2xl mx-auto mt-6 font-mono text-lg text-green-400/80"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
         >
-          A passionate and driven software engineering student at the prestigious
-          University of Moratuwa, dedicated to mastering the art and science of
-          software engineering through innovative solutions and continuous learning.
-        </motion.p>
+          <div className="p-4 border rounded-lg border-green-500/30 bg-black/50 backdrop-blur-sm">
+            <code>
+              {">"} status: online<br />
+              {">"} location: Sri_Lanka -{'>'} Kurunegala<br />
+              {">"} mission: mastering_software_engineering<br />
+              {">"} status: seeking_innovative_solutions
+            </code>
+          </div>
+        </motion.div>
 
         {/* CTA Buttons */}
         <motion.div
           className="flex flex-wrap justify-center gap-4 mt-8"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.8 }}
+          transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
         >
           <motion.a
             href="#projects"
-            className="px-8 py-4 text-lg font-bold text-white transition-all bg-blue-600 rounded-lg shadow-lg hover:shadow-blue-500/30 hover:scale-105 dark:bg-blue-700 dark:hover:bg-blue-600"
-            whileHover={{ scale: 1.05 }}
+            className="px-8 py-4 font-mono text-lg font-bold text-black transition-all bg-green-400 border rounded-lg shadow-lg hover:shadow-green-500/30 hover:scale-105 border-green-500/50"
+            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(34, 197, 94, 0.5)" }}
             whileTap={{ scale: 0.95 }}
           >
-            View My Projects
+            {"<View_Projects />"}
           </motion.a>
           <motion.a
             href="#contact"
-            className="px-8 py-4 text-lg font-bold text-white transition-all bg-gray-800 rounded-lg shadow-lg hover:shadow-gray-500/30 hover:scale-105 dark:bg-gray-700 dark:hover:bg-gray-600"
-            whileHover={{ scale: 1.05 }}
+            className="px-8 py-4 font-mono text-lg font-bold text-green-400 transition-all border border-green-500 rounded-lg shadow-lg hover:shadow-green-500/30 hover:scale-105"
+            whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(34, 197, 94, 0.3)" }}
             whileTap={{ scale: 0.95 }}
           >
-            Contact Me
+            {"<Contact_Me />"}
           </motion.a>
         </motion.div>
 
         {/* Scroll Indicator */}
         <motion.div
-          className="absolute -translate-x-1/2 bottom-8 left-1/2"
+          className="absolute text-green-400 -translate-x-1/2 bottom-8 left-1/2"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ 
@@ -151,7 +192,7 @@ const EnhancedHero = () => {
             }
           }}
         >
-          <ChevronDown className="w-8 h-8 animate-bounce" />
+          <ChevronDown className="w-8 h-8 animate-pulse" />
         </motion.div>
       </div>
     </div>
