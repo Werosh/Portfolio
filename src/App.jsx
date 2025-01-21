@@ -7,16 +7,20 @@ import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import ThemeButton from "./components/ThemeButton";
+// import ThemeButton from "./components/ThemeButton";
 import { ThemeContext } from "./components/ThemeContext"; // Import ThemeContext
 import Preloader from "./components/Preloader";
+import CyberMouseTracker from "./components/CyberMouseTracker";
 
 const App = () => {
   const { theme } = useContext(ThemeContext); // Get the current theme
 
   return (
-    <div className={theme === "dark" ? "dark" : ""}> {/* Apply the theme */}
-    <Preloader/>
+    <div className={theme === "dark" ? "dark" : ""}>
+      {" "}
+      {/* Apply the theme */}
+      <Preloader />
+      <CyberMouseTracker/>
       <Back />
       <Navbar />
       {/* <ThemeButton /> */}
