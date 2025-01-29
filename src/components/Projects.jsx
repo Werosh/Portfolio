@@ -49,6 +49,15 @@ const CyberProjects = () => {
       tech: ["React", "Node.js", "MongoDB"],
     },
     {
+      title: "Serenity_Hotel.app",
+      description:
+        "Hotel Sentry is a platform offering hotel booking services. It provides features such as browsing hotel options, checking availability, and making reservations.",
+      icon: <Terminal className="w-6 h-6" />,
+      status: "ONLINE",
+      link: "https://hotelsentry.netlify.app/",
+      tech: ["React", "Node.js"],
+    },
+    {
       title: "Group_Portfolio.exe",
       description:
         "Personal portfolio platform with advanced UI/UX implementations",
@@ -75,15 +84,7 @@ const CyberProjects = () => {
       link: "https://hebalhaven.netlify.app/",
       tech: ["Vue.js", "Firebase"],
     },
-    {
-      title: "Serenity_Hotel.app",
-      description:
-        "Hotel Sentry is a platform offering hotel booking services. It provides features such as browsing hotel options, checking availability, and making reservations.",
-      icon: <Terminal className="w-6 h-6" />,
-      status: "ONLINE",
-      link: "https://hotelsentry.netlify.app/",
-      tech: ["React", "Node.js"],
-    },
+
     {
       title: "Early_Portfolio.old",
       description:
