@@ -40,6 +40,15 @@ const CyberProjects = () => {
 
   const projectsData = [
     {
+      title: "The_Alphawizards_Portfolio.exe",
+      description:
+        "Personal portfolio platform with advanced UI/UX implementations",
+      icon: <Globe className="w-6 h-6" />,
+      status: "ONLINE",
+      link: "https://thealphawizards.netlify.app/",
+      tech: ["React", "Node.js", "MongoDB"],
+    },
+    {
       title: "Group_Portfolio.exe",
       description:
         "Personal portfolio platform with advanced UI/UX implementations",
