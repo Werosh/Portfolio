@@ -69,7 +69,7 @@ const ModernHero = () => {
               <span className={`bg-gradient-to-r ${textToType[currentTextIndex].color} bg-clip-text text-transparent font-bold`}>
                 {displayedText}
               </span>
-              <span className="absolute -right-[2px] top-[0.15em] h-[0.9em] w-[2px] bg-current animate-pulse" />
+              {/* <span className="absolute -right-[2px] top-[0.15em] h-[0.9em] w-[2px] bg-current animate-pulse" /> */}
             </span>
           </h1>
 
