@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-const CyberMouseTracker = () => {
+const ModernMouseTracker = () => {
   const [cursorVariant, setCursorVariant] = useState("default");
-  const [isHovered, setIsHovered] = useState(false);
-  const [glitchText, setGlitchText] = useState("");
-
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Create smooth spring animations
-  const springConfig = { damping: 25, stiffness: 700 };
+  // Smooth spring animations with custom config
+  const springConfig = { damping: 20, stiffness: 300, mass: 0.5 };
   const smoothX = useSpring(cursorX, springConfig);
   const smoothY = useSpring(cursorY, springConfig);
-
-  // Matrix characters for glitch effect
-  const matrixChars =
-    "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
 
   useEffect(() => {
     const moveCallback = (e) => {
@@ -25,32 +18,12 @@ const CyberMouseTracker = () => {
     };
 
     window.addEventListener("mousemove", moveCallback);
-
-    // Glitch text interval
-    const glitchInterval = setInterval(() => {
-      if (isHovered) {
-        const newChar =
-          matrixChars[Math.floor(Math.random() * matrixChars.length)];
-        setGlitchText(newChar);
-      }
-    }, 100);
-
-    return () => {
-      window.removeEventListener("mousemove", moveCallback);
-      clearInterval(glitchInterval);
-    };
-  }, [isHovered]);
+    return () => window.removeEventListener("mousemove", moveCallback);
+  }, []);
 
   useEffect(() => {
-    const handleHover = () => {
-      setCursorVariant("hover");
-      setIsHovered(true);
-    };
-
-    const handleUnhover = () => {
-      setCursorVariant("default");
-      setIsHovered(false);
-    };
+    const handleHover = () => setCursorVariant("hover");
+    const handleUnhover = () => setCursorVariant("default");
 
     const elements = document.querySelectorAll(
       'a, button, input, [role="button"]'
@@ -71,13 +44,11 @@ const CyberMouseTracker = () => {
   const variants = {
     default: {
       scale: 1,
-      backgroundColor: "rgba(74, 222, 128, 0.2)",
-      borderColor: "rgba(74, 222, 128, 0.5)",
+      opacity: 0.6,
     },
     hover: {
       scale: 1.5,
-      backgroundColor: "rgba(74, 222, 128, 0.4)",
-      borderColor: "rgba(74, 222, 128, 0.8)",
+      opacity: 0.8,
     },
   };
 
@@ -85,7 +56,7 @@ const CyberMouseTracker = () => {
     <>
       {/* Main cursor */}
       <motion.div
-        className="fixed top-0 left-0 z-50 w-8 h-8 pointer-events-none mix-blend-screen"
+        className="fixed top-0 left-0 z-50 pointer-events-none mix-blend-screen"
         style={{
           x: smoothX,
           y: smoothY,
@@ -93,61 +64,47 @@ const CyberMouseTracker = () => {
           translateY: "-50%",
         }}
       >
+        {/* Primary cursor circle */}
         <motion.div
-          className="absolute w-full h-full border rounded-full"
+          className="relative w-12 h-12"
           variants={variants}
           animate={cursorVariant}
           transition={{ type: "spring", damping: 30, stiffness: 200 }}
-        />
+        >
+          {/* Gradient background */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-violet-500/30 to-fuchsia-500/30 blur-sm" />
+          
+          {/* Border ring */}
+          <div className="absolute inset-0 border rounded-full border-white/20 backdrop-blur-sm" />
+        </motion.div>
 
-        {/* Trailing effect */}
-        {[...Array(3)].map((_, i) => (
+        {/* Trailing effects */}
+        {[...Array(2)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-full h-full border border-green-400 rounded-full"
+            className="absolute w-full h-full"
             style={{
-              x: smoothX,
-              y: smoothY,
-              translateX: "-50%",
-              translateY: "-50%",
               scale: 1 - i * 0.2,
             }}
             animate={{
-              opacity: [0.3, 0],
-              scale: [1, 2],
+              opacity: [0.2, 0],
+              scale: [1, 1.5],
             }}
             transition={{
-              duration: 0.5,
-              delay: i * 0.1,
+              duration: 0.8,
+              delay: i * 0.2,
               repeat: Infinity,
-            }}
-          />
-        ))}
-
-        {/* Glitch text effect */}
-        {isHovered && (
-          <motion.div
-            className="absolute font-mono text-lg text-green-500"
-            style={{
-              x: 20,
-              y: 20,
-            }}
-            animate={{
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 0.2,
-              repeat: Infinity,
+              ease: "easeOut",
             }}
           >
-            {glitchText}
+            <div className="w-12 h-12 rounded-full bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 blur-sm" />
           </motion.div>
-        )}
+        ))}
       </motion.div>
 
-      {/* Secondary cursor */}
+      {/* Secondary cursor dot */}
       <motion.div
-        className="fixed top-0 left-0 z-50 w-2 h-2 bg-green-400 rounded-full pointer-events-none"
+        className="fixed top-0 left-0 z-50 w-1.5 h-1.5 rounded-full pointer-events-none bg-gradient-to-r from-violet-500 to-fuchsia-500"
         style={{
           x: cursorX,
           y: cursorY,
@@ -159,4 +116,4 @@ const CyberMouseTracker = () => {
   );
 };
 
-export default CyberMouseTracker;
+export default ModernMouseTracker;

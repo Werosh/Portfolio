@@ -1,158 +1,84 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { TbBrandGoogleHome, TbCircuitDiode } from "react-icons/tb";
-import { SiSimplenote, SiRetool } from "react-icons/si";
-import { LuBrainCircuit } from "react-icons/lu";
-import { BiSolidContact } from "react-icons/bi";
-import { VscTerminal } from "react-icons/vsc";
-import { CgCloseO } from "react-icons/cg";
+import React, { useState } from "react";
+import { Code, Home, User, Box, Briefcase, Mail } from "lucide-react";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [glitchText, setGlitchText] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-    setGlitchText(true);
-    setTimeout(() => setGlitchText(false), 1000);
-  };
-
-  const linkVariants = {
-    hidden: { opacity: 0, x: -20 },
-    visible: { opacity: 1, x: 0 },
-  };
-
-  const logoVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.5,
-        yoyo: Infinity,
-        ease: "easeInOut",
-      },
-    },
-  };
-
-  const navClasses = `fixed top-0 z-50 w-full backdrop-blur-md dark:bg-black/70 border-b ${
-    scrolled ? "border-green-500/50" : "border-green-500/20"
-  }`;
+  const navLinks = [
+    { href: "#home", icon: <Home size={18} />, label: "Home" },
+    { href: "#about", icon: <User size={18} />, label: "About" },
+    { href: "#projects", icon: <Briefcase size={18} />, label: "Projects" },
+    { href: "#skills", icon: <Box size={18} />, label: "Skills" },
+    { href: "#contact", icon: <Mail size={18} />, label: "Contact" },
+  ];
 
   return (
-    <nav className={navClasses}>
-      <div className="flex items-center justify-between p-4 mx-auto max-w-7xl">
-        <motion.div
-          className="flex items-center gap-2 font-mono text-xl"
-          variants={logoVariants}
-          initial="hidden"
-          animate="visible"
-        >
-          <TbCircuitDiode className="text-green-500 animate-pulse" />
-          <span
-            className={`text-green-400 ${glitchText ? "animate-pulse" : ""}`}
-          >
-            ./werosh_kriyanjala
-          </span>
-        </motion.div>
-
-        <div className="hidden gap-8 text-lg md:flex">
-          {[
-            { href: "#hero", icon: <TbBrandGoogleHome />, label: "HOME:/" },
-            { href: "#about", icon: <SiSimplenote />, label: "ABOUT.txt" },
-            { href: "#projects", icon: <SiRetool />, label: "PROJECTS.exe" },
-            { href: "#skills", icon: <LuBrainCircuit />, label: "SKILLS.sys" },
-            { href: "#contact", icon: <BiSolidContact />, label: "CONTACT.sh" },
-          ].map((link, index) => (
-            <motion.a
-              key={index}
-              href={link.href}
-              className="flex items-center gap-2 font-mono text-green-400 transition-all duration-300 hover:text-green-200 hover:scale-110 group"
-              variants={linkVariants}
-              initial="hidden"
-              animate="visible"
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              whileHover={{ y: -2 }}
-            >
-              <span className="text-green-500 group-hover:animate-ping">
-                {link.icon}
+    <nav className="fixed top-0 z-50 w-full bg-white/[0.02] backdrop-blur-md border-b border-white/[0.05]">
+      <div className="mx-auto max-w-7xl">
+        <div className="relative flex items-center justify-between h-20 px-6">
+          {/* Logo */}
+          <div className="relative flex items-center gap-3 group">
+            <div className="flex items-center justify-center w-10 h-10 shadow-lg rounded-xl bg-gradient-to-br from-violet-500 to-indigo-500">
+              <Code className="w-5 h-5 text-white" />
+            </div>
+            <span className="text-xl font-bold tracking-tight">
+              <span className="text-transparent bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text">
+                Werosh
               </span>
-              <span className="group-hover:tracking-wider">{link.label}</span>
-            </motion.a>
-          ))}
-        </div>
+              <span className="text-gray-400">.dev</span>
+            </span>
+          </div>
 
-        <div className="md:hidden">
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="flex items-center gap-2">
+              {navLinks.map((link, index) => (
+                <a
+                  key={index}
+                  href={link.href}
+                  onMouseEnter={() => setHoverIndex(index)}
+                  onMouseLeave={() => setHoverIndex(null)}
+                  className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-300 transition-all duration-300 rounded-lg hover:text-white"
+                >
+                  <span className="relative z-10 transition-all duration-300 text-violet-500 hover:scale-110">
+                    {link.icon}
+                  </span>
+                  <span className="relative z-10">{link.label}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
           <button
-            onClick={toggleMenu}
-            className="text-2xl text-green-400 transition duration-300 hover:text-green-200"
-            aria-label="Toggle menu"
+            className="relative flex items-center gap-2 px-4 py-2 text-sm font-medium text-white rounded-lg shadow-lg md:hidden group"
+            onClick={() => setIsOpen(!isOpen)}
           >
-            {isOpen ? <CgCloseO /> : <VscTerminal />}
+            <div className="absolute inset-0 transition-all duration-300 bg-gradient-to-r from-violet-500 to-indigo-500" />
+            <span className="relative z-10">Menu</span>
           </button>
         </div>
-      </div>
 
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="border-t bg-black/90 backdrop-blur-md md:hidden border-green-500/20"
-          >
-            <ul className="flex flex-col items-center gap-4 py-4">
-              {[
-                { href: "#hero", icon: <TbBrandGoogleHome />, label: "HOME:/" },
-                { href: "#about", icon: <SiSimplenote />, label: "ABOUT.txt" },
-                {
-                  href: "#projects",
-                  icon: <SiRetool />,
-                  label: "PROJECTS.exe",
-                },
-                {
-                  href: "#skills",
-                  icon: <LuBrainCircuit />,
-                  label: "SKILLS.sys",
-                },
-                {
-                  href: "#contact",
-                  icon: <BiSolidContact />,
-                  label: "CONTACT.sh",
-                },
-              ].map((link, index) => (
-                <motion.li
-                  key={index}
-                  variants={linkVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="hidden"
-                  transition={{ duration: 0.3, delay: index * 0.1 }}
-                >
-                  <a
-                    href={link.href}
-                    className="flex items-center gap-2 font-mono text-lg text-green-400 transition-all duration-300 hover:text-green-200"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span className="text-green-500">{link.icon}</span>
-                    {link.label}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* Mobile Navigation */}
+        <div className={`md:hidden overflow-hidden transition-all duration-500 px-4 ${isOpen ? "max-h-[400px] pb-4" : "max-h-0"}`}>
+          <div className="space-y-1 bg-white/[0.02] rounded-xl p-1">
+            {navLinks.map((link, index) => (
+              <a
+                key={index}
+                href={link.href}
+                className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-300 transition-all duration-300 rounded-lg group hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                <span className="relative z-10 transition-all duration-300 text-violet-500 hover:scale-110">
+                  {link.icon}
+                </span>
+                <span className="relative z-10">{link.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
     </nav>
   );
 };

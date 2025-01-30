@@ -1,249 +1,156 @@
-import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, ExternalLink, Code, Lock, Globe } from "lucide-react";
+import React from 'react';
+import { ExternalLink, Code, Globe } from 'lucide-react';
 
-const CyberProjects = () => {
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [matrixRain, setMatrixRain] = useState([]);
-
-  // Matrix rain effect
-  useEffect(() => {
-    const characters =
-      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-    const generateRain = () => {
-      return Array.from({ length: 25 }, () => ({
-        x: Math.random() * 100,
-        y: -Math.random() * 100,
-        char: characters[Math.floor(Math.random() * characters.length)],
-        speed: 0.5 + Math.random() * 2,
-        opacity: Math.random(),
-      }));
-    };
-
-    setMatrixRain(generateRain());
-    const interval = setInterval(() => {
-      setMatrixRain((prev) =>
-        prev.map((drop) => ({
-          ...drop,
-          y: drop.y > 100 ? -10 : drop.y + drop.speed,
-          char:
-            Math.random() < 0.1
-              ? characters[Math.floor(Math.random() * characters.length)]
-              : drop.char,
-          opacity: Math.random(),
-        }))
-      );
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const projectsData = [
+const ProjectSection = () => {
+  const projects = [
     {
-      title: "The_Alphawizards_Portfolio.exe",
-      description:
-        "Personal portfolio platform with advanced UI/UX implementations",
-      icon: <Globe className="w-6 h-6" />,
-      status: "ONLINE",
+      title: "The Alphawizards Portfolio",
+      description: "Personal portfolio platform with advanced UI/UX implementations",
+      icon: <Globe />,
+      tech: ["React", "Node.js", "MongoDB"],
       link: "https://thealphawizards.netlify.app/",
-      tech: ["React", "Node.js", "MongoDB"],
+      gradient: "from-violet-500 to-indigo-500"
     },
     {
-      title: "Serenity_Hotel.app",
-      description:
-        "Hotel Sentry is a platform offering hotel booking services. It provides features such as browsing hotel options, checking availability, and making reservations.",
-      icon: <Terminal className="w-6 h-6" />,
-      status: "ONLINE",
-      link: "https://hotelsentry.netlify.app/",
+      title: "Serenity Hotel",
+      description: "Hotel booking platform offering seamless reservations and availability checking",
+      icon: <Code />,
       tech: ["React", "Node.js"],
+      link: "https://hotelsentry.netlify.app/",
+      gradient: "from-cyan-500 to-blue-500"
     },
     {
-      title: "Group_Portfolio.exe",
-      description:
-        "Personal portfolio platform with advanced UI/UX implementations",
-      icon: <Globe className="w-6 h-6" />,
-      status: "ONLINE",
-      link: "https://bluhbluhdev.netlify.app/",
-      tech: ["React", "Node.js", "MongoDB"],
-    },
-    {
-      title: "Buy_Book_Anywhere.sys",
-      description: "Library search engine with ML-powered recommendations",
-      icon: <Code className="w-6 h-6" />,
-      status: "DEPLOYED",
-      link: "https://demolibry.netlify.app/",
+      title: "Buy Book Anywhere",
+      description: "Advanced library search engine with intelligent recommendations",
+      icon: <Code />,
       tech: ["Python", "TensorFlow", "AWS"],
-    },
-
-    {
-      title: "Herbal_Haven.sys",
-      description:
-        "The HerBal HaVen website offers a selection of herbal products and remedies designed to enhance well-being. It highlights the benefits of using natural ingredients for health and provides easy access to a variety of herbal solutions.",
-      icon: <Globe className="w-6 h-6" />,
-      status: "ACTIVE",
-      link: "https://hebalhaven.netlify.app/",
-      tech: ["Vue.js", "Firebase"],
-    },
-
-    {
-      title: "Early_Portfolio.old",
-      description:
-        "The Werosh K website is the personal portfolio of Werosh Kriyanjala, a software engineering student at the University of Moratuwa. The site showcases his technical skills and projects, including web development and software engineering work.",
-      icon: <Globe className="w-6 h-6" />,
-      status: "ONLINE",
-      link: "https://weroshport.netlify.app/",
-      tech: ["HTML", "CSS", "JavaScript"],
+      link: "https://demolibry.netlify.app/",
+      gradient: "from-amber-500 to-orange-500"
     },
     {
-      title: "Salon_IMS.exe",
-      description:
-        "Salon Inventory Management System simplifies and optimizes inventory management for salon operations. It features tools for tracking stock, managing suppliers, and recording daily sales.",
-      icon: <Code className="w-6 h-6" />,
-      status: "FINISHED",
-      tech: ["C#", "MySQL"],
-    },
-    {
-      title: "Movie_Picker.test",
-      description:
-        "The website MovYPikker provides a platform for browsing and discovering movies across various genres. It offers information about films such as IMDb ratings, genres, release year, and detailed descriptions.",
-      icon: <Globe className="w-6 h-6" />,
-      status: "ONLINE",
-      link: "https://movypikker.netlify.app/",
+      title: "Group Portfolio",
+      description: "Personal portfolio platform with advanced UI/UX implementations",
+      icon: <Globe />,
       tech: ["React", "Node.js", "MongoDB"],
+      link: "https://bluhbluhdev.netlify.app/",
+      gradient: "from-green-500 to-teal-500"
     },
+    {
+      title: "Herbal Haven",
+      description: "A website offering a selection of herbal products and remedies designed to enhance well-being.",
+      icon: <Globe />,
+      tech: ["Vue.js", "Firebase"],
+      link: "https://hebalhaven.netlify.app/",
+      gradient: "from-lime-500 to-green-500"
+    },
+    {
+      title: "Early Portfolio",
+      description: "The personal portfolio of Werosh Kriyanjala, showcasing web development and software engineering projects.",
+      icon: <Globe />,
+      tech: ["HTML", "CSS", "JavaScript"],
+      link: "https://weroshport.netlify.app/",
+      gradient: "from-gray-500 to-slate-500"
+    },
+    {
+      title: "Salon IMS",
+      description: "Salon Inventory Management System simplifies and optimizes inventory management for salon operations.",
+      icon: <Code />,
+      tech: ["C#", "MySQL"],
+      gradient: "from-rose-500 to-red-500"
+    },
+    {
+      title: "Movie Picker",
+      description: "A platform for browsing and discovering movies across various genres with IMDb ratings and detailed info.",
+      icon: <Globe />,
+      tech: ["React", "Node.js", "MongoDB"],
+      link: "https://movypikker.netlify.app/",
+      gradient: "from-purple-500 to-pink-500"
+    }
   ];
+  
 
   return (
-    <motion.section
-      id="projects"
-      className="relative min-h-screen py-20 overflow-hidden text-green-400 dark:bg-black bg-gradient-to-b from-black/50 via-transparent to-black/50"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-    >
-      {/* Matrix Rain Background */}
-      <div className="absolute inset-0 opacity-20">
-        {matrixRain.map((drop, i) => (
-          <motion.div
-            key={i}
-            className="absolute font-mono text-xl text-green-500"
-            animate={{
-              y: [`${drop.y}%`, `${drop.y + 100}%`],
-              opacity: [drop.opacity, 0],
-            }}
-            transition={{
-              duration: drop.speed * 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{ left: `${drop.x}%` }}
-          >
-            {drop.char}
-          </motion.div>
-        ))}
+    <div id="projects" className="relative w-full min-h-screen overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="absolute top-0 left-0 rounded-full w-96 h-96 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 rounded-full w-96 h-96 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl animate-pulse" />
       </div>
 
-      <div className="container relative z-10 px-4 mx-auto">
-        <motion.div
-          className="mb-16 font-mono text-center"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="inline-block p-2 mb-4 text-sm border rounded-lg border-green-500/30 bg-black/50">
-            <span className="text-green-500">root@system</span>
-            <span className="text-gray-500">:</span>
-            <span className="text-blue-400">~/projects</span>
-            <span className="text-gray-500">$</span>
-            <span className="ml-2">ls -la projects/</span>
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] 
+        bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
+
+      {/* Content */}
+      <div className="relative z-20 flex flex-col items-center justify-center w-full min-h-screen px-6 py-20">
+        <div className="max-w-6xl mx-auto">
+          {/* Section Header */}
+          <div className="mb-16 text-center">
+            <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium border rounded-full bg-white/5 border-white/10 backdrop-blur-sm">
+              <span className="text-gray-300">Featured Work</span>
+            </div>
+            <h2 className="text-4xl font-medium md:text-6xl">
+              Recent 
+              <span className="ml-2 font-bold text-transparent bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text">
+                Projects
+              </span>
+            </h2>
           </div>
 
-          <h2 className="text-2xl font-bold text-green-400 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-            {"<Project_Directory />"}
-          </h2>
-        </motion.div>
-
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {projectsData.map((project, index) => (
-            <motion.div
-              key={index}
-              className="relative overflow-hidden font-mono border rounded-lg border-green-500/30 bg-black/50 backdrop-blur-sm"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              onHoverStart={() => setHoveredIndex(index)}
-              onHoverEnd={() => setHoveredIndex(null)}
-              whileHover={{ scale: 1.02 }}
-            >
-              {/* Project Header */}
-              <div className="flex items-center justify-between p-4 border-b border-green-500/30">
-                <div className="flex items-center gap-2">
-                  {project.icon}
-                  <span className="text-lg font-bold">{project.title}</span>
-                </div>
-                <span className="px-2 py-1 text-xs border rounded-full border-green-500/30">
-                  {project.status}
-                </span>
-              </div>
-
-              {/* Project Content */}
-              <div className="p-6 space-y-4">
-                <p className="leading-relaxed">
-                  <span className="text-gray-500">{">"}</span>{" "}
-                  {project.description}
-                </p>
-
-                {/* Tech Stack */}
-                <div className="space-y-2">
-                  <div className="text-sm text-green-300">
-                    {"// Tech Stack"}
+          {/* Projects Grid */}
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project, index) => (
+              <div key={index} 
+                className="relative overflow-hidden transition-all duration-300 border group rounded-2xl border-white/10 bg-white/5 backdrop-blur-sm hover:scale-105 hover:shadow-lg">
+                {/* Card Content Container */}
+                <div className="relative z-10 flex flex-col h-full p-6">
+                  {/* Project Icon & Title */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`p-2 rounded-lg bg-gradient-to-r ${project.gradient} bg-opacity-10`}>
+                      {React.cloneElement(project.icon, { className: "w-6 h-6" })}
+                    </div>
+                    <h3 className="text-xl font-medium">{project.title}</h3>
                   </div>
-                  <div className="flex flex-wrap gap-2">
+
+                  {/* Description */}
+                  <p className="flex-grow mb-6 text-gray-300/80">
+                    {project.description}
+                  </p>
+
+                  {/* Technologies */}
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {project.tech.map((tech, i) => (
-                      <span
-                        key={i}
-                        className="px-2 py-1 text-xs border rounded-full border-green-500/30"
-                      >
+                      <span key={i} className="px-3 py-1 text-xs font-medium border rounded-full bg-white/5 border-white/10">
                         {tech}
                       </span>
                     ))}
                   </div>
+
+                  {/* Project Link - Now with proper z-index and pointer events */}
+                  <div className="relative z-20">
+                    <a
+                      href={project.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white rounded-full 
+                        bg-gradient-to-r ${project.gradient} transition-all duration-300 
+                        hover:shadow-lg hover:shadow-violet-500/25 hover:scale-105 cursor-pointer`}
+                    >
+                      View Project
+                      <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
                 </div>
 
-                {/* Project Link */}
-                {project.link && (
-                  <motion.a
-                    href={project.link}
-                    target="_blank"
-                    className="flex items-center gap-2 px-4 py-2 mt-4 text-black transition-all bg-green-400 rounded-lg hover:bg-green-500"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Code className="w-4 h-4" />
-                    {"<Execute_Project />"}
-                  </motion.a>
-                )}
+                {/* Hover Gradient Effect - Now with lower z-index */}
+                <div className="absolute inset-0 z-0 transition-opacity duration-300 opacity-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 group-hover:opacity-10" />
               </div>
-
-              {/* Scanning line effect */}
-              {hoveredIndex === index && (
-                <motion.div
-                  className="absolute w-full h-1 bg-green-500/20"
-                  animate={{
-                    top: ["0%", "100%"],
-                  }}
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-              )}
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </motion.section>
+    </div>
   );
 };
 
-export default CyberProjects;
+export default ProjectSection;

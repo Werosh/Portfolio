@@ -1,49 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Terminal, Code2, Cpu, Database, Globe } from 'lucide-react';
-import myImg from"../assets/images/my/dp.jpg"
+import { Code2, Cpu, Database, Globe } from 'lucide-react';
+import myImg from "../assets/images/my/dp.jpg";
 
-const CyberAbout = () => {
-  const [isHovered, setIsHovered] = useState(false);
-  const [matrixRain, setMatrixRain] = useState([]);
+const ModernAbout = () => {
   const [currentSkill, setCurrentSkill] = useState(0);
 
   const skills = [
-    { text: "Full Stack Development", icon: <Code2 className="w-6 h-6" />, color: "#22c55e" },
-    { text: "System Architecture", icon: <Cpu className="w-6 h-6" />, color: "#22d3ee" },
-    { text: "Database Engineering", icon: <Database className="w-6 h-6" />, color: "#a855f7" },
-    { text: "Web Technologies", icon: <Globe className="w-6 h-6" />, color: "#ef4444" },
+    { text: "Full Stack Development", icon: <Code2 className="w-6 h-6" />, color: "from-violet-500 to-indigo-500" },
+    { text: "System Architecture", icon: <Cpu className="w-6 h-6" />, color: "from-cyan-500 to-blue-500" },
+    { text: "Database Engineering", icon: <Database className="w-6 h-6" />, color: "from-fuchsia-500 to-pink-500" },
+    { text: "Web Technologies", icon: <Globe className="w-6 h-6" />, color: "from-amber-500 to-orange-500" }
   ];
 
-  // Matrix rain effect
-  useEffect(() => {
-    const characters = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-    const generateRain = () => {
-      return Array.from({ length: 25 }, () => ({
-        x: Math.random() * 100,
-        y: -Math.random() * 100,
-        char: characters[Math.floor(Math.random() * characters.length)],
-        speed: 0.5 + Math.random() * 2,
-        opacity: Math.random(),
-      }));
-    };
-
-    setMatrixRain(generateRain());
-    const interval = setInterval(() => {
-      setMatrixRain(prev => 
-        prev.map(drop => ({
-          ...drop,
-          y: drop.y > 100 ? -10 : drop.y + drop.speed,
-          char: Math.random() < 0.1 ? characters[Math.floor(Math.random() * characters.length)] : drop.char,
-          opacity: Math.random(),
-        }))
-      );
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Skill rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentSkill((prev) => (prev + 1) % skills.length);
@@ -52,166 +20,99 @@ const CyberAbout = () => {
   }, []);
 
   return (
-    <motion.section
-      id="about"
-      className="relative min-h-screen py-20 overflow-hidden text-green-400 dark:bg-black bg-gradient-to-b from-black/50 via-transparent to-black/50"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true }}
-    >
-      {/* Matrix Rain Background */}
-      <div className="absolute inset-0 opacity-20">
-        {matrixRain.map((drop, i) => (
-          <motion.div
-            key={i}
-            className="absolute font-mono text-xl text-green-500"
-            animate={{
-              y: [`${drop.y}%`, `${drop.y + 100}%`],
-              opacity: [drop.opacity, 0],
-            }}
-            transition={{
-              duration: drop.speed * 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{ left: `${drop.x}%` }}
-          >
-            {drop.char}
-          </motion.div>
-        ))}
+    <section id="about" className="relative min-h-screen py-20 overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 blur-3xl 
+          animate-pulse top-[-100px] right-[-100px]" />
+        <div className="absolute w-[500px] h-[500px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 blur-3xl 
+          animate-pulse bottom-[-100px] left-[-100px]" style={{ animationDelay: '1s' }} />
       </div>
 
-      {/* Content Container */}
-      <div className="container relative z-10 px-4 mx-auto">
-        <motion.div
-          className="mb-16 font-mono text-center"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="inline-block p-2 mb-4 text-sm border rounded-lg border-green-500/30 bg-black/50">
-            <span className="text-green-500">root@system</span>
-            <span className="text-gray-500">:</span>
-            <span className="text-blue-400">~/about</span>
-            <span className="text-gray-500">$</span>
-            <span className="ml-2">cat profile.sh</span>
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] 
+        bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
+
+      {/* Content */}
+      <div className="container relative z-20 px-6 mx-auto">
+        {/* Section Title */}
+        <div className="mt-2 mb-16 text-center">
+          <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium border rounded-full bg-white/5 border-white/10 backdrop-blur-sm">
+            <span className="text-gray-300">About Me</span>
           </div>
-          
-          <h2 className="text-2xl font-bold text-green-400 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl">
-            {"<About_Profile />"}
+          <h2 className="text-4xl font-medium md:text-5xl lg:text-6xl">
+            Crafting Digital
+            <span className={`ml-2 bg-gradient-to-r ${skills[currentSkill].color} bg-clip-text text-transparent font-bold`}>
+              Experiences
+            </span>
           </h2>
-        </motion.div>
+        </div>
 
-        <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
-          <motion.div
-            className="space-y-6"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-          >
+        <div className="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
+          {/* Left Column - Profile Info */}
+          <div className="space-y-8">
             {[
-             {
-              "title": "About.Me",
-              "content": "Passionate and dedicated software engineering undergraduate at the University of Moratuwa, with a strong foundation in problem-solving and a commitment to delivering high-quality solutions. I thrive on tackling complex challenges and continuously learning to stay ahead in the ever-evolving tech landscape."
-            },
-            {
-              "title": "System.Profile",
-              "content": "Enthusiastic software engineer specializing in modern web technologies and system architecture."
-            },
-            {
-              "title": "Core.Skills",
-              "content": "Proficient in full-stack development with expertise in React, Node.js, and cloud infrastructure."
-            },
-            {
-              "title": "Current.Status",
-              "content": "Actively developing innovative solutions and exploring cutting-edge technologies."
-            }
+              {
+                title: "About Me",
+                content: "Passionate and dedicated software engineering undergraduate at the University of Moratuwa, with a strong foundation in problem-solving and a commitment to delivering high-quality solutions."
+              },
+              {
+                title: "My Focus",
+                content: "Enthusiastic software engineer specializing in modern web technologies and system architecture."
+              },
+              {
+                title: "Expertise",
+                content: "Proficient in full-stack development with expertise in React, Node.js, and cloud infrastructure."
+              }
             ].map((section, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="p-6 font-mono border rounded-lg border-green-500/30 bg-black/50 backdrop-blur-sm"
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: "0 0 20px rgba(34, 197, 94, 0.2)",
-                }}
+                className="p-6 transition-all duration-300 border rounded-2xl bg-white/5 border-white/10 backdrop-blur-sm hover:bg-white/10"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <Terminal className="w-5 h-5" />
-                  <span className="text-sm text-green-300">{section.title}</span>
-                </div>
-                <p className="text-lg leading-relaxed">
-                  <span className="text-gray-500">{">"}</span> {section.content}
+                <h3 className="mb-3 text-xl font-medium text-transparent bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text">
+                  {section.title}
+                </h3>
+                <p className="leading-relaxed text-gray-300/80">
+                  {section.content}
                 </p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="flex flex-col items-center justify-center space-y-8"
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <motion.div
-              className="relative group"
-              onHoverStart={() => setIsHovered(true)}
-              onHoverEnd={() => setIsHovered(false)}
-            >
-              <motion.div
-                className="relative overflow-hidden border-2 rounded-lg w-72 h-72 border-green-500/50"
-                whileHover={{ scale: 1.05 }}
-              >
+          {/* Right Column - Image & Skills */}
+          <div className="flex flex-col items-center space-y-8">
+            <div className="relative group">
+              <div className="relative overflow-hidden rounded-2xl w-72 h-72">
                 <img
                   src={myImg}
                   alt="Profile"
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
-                {/* Scanning line effect */}
-                <motion.div
-                  className="absolute w-full h-1 bg-green-500/50"
-                  animate={{
-                    top: ["0%", "100%"],
-                  }}
-                  transition={{
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
-              </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              </div>
 
-              {/* Terminal-style skill display */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSkill}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="absolute left-0 right-0 p-4 text-center -bottom-20"
-                >
-                  <div className="flex items-center justify-center gap-2 p-2 font-mono text-lg border rounded-lg border-green-500/30 bg-black/90">
-                    {skills[currentSkill].icon}
-                    <span style={{ color: skills[currentSkill].color }}>
-                      {skills[currentSkill].text}
-                    </span>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </motion.div>
+              {/* Skills Display */}
+              <div className="absolute left-0 right-0 -bottom-4">
+                <div className="flex items-center justify-center gap-2 p-4 mx-auto text-sm font-medium border rounded-full bg-white/5 border-white/10 backdrop-blur-sm w-fit">
+                  {skills[currentSkill].icon}
+                  <span className={`bg-gradient-to-r ${skills[currentSkill].color} bg-clip-text text-transparent`}>
+                    {skills[currentSkill].text}
+                  </span>
+                </div>
+              </div>
+            </div>
 
-            <motion.a
+            <a
               href="#contact"
-              className="px-8 py-4 font-mono text-lg font-bold text-black transition-all bg-green-400 border rounded-lg hover:shadow-green-500/30 hover:scale-105 border-green-500/50"
-              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(34, 197, 94, 0.5)" }}
-              whileTap={{ scale: 0.95 }}
+              className="inline-flex items-center gap-2 px-8 py-4 text-sm font-medium text-white transition-all rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 hover:shadow-lg hover:shadow-violet-500/25 hover:scale-105"
             >
-              {"<Initialize_Connection />"}
-            </motion.a>
-          </motion.div>
+              Let's Connect
+            </a>
+          </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
-export default CyberAbout;
+export default ModernAbout;

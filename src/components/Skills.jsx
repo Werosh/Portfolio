@@ -1,284 +1,232 @@
-import React, { useState, useEffect } from "react";
-import {
-  motion,
-  useMotionValue,
-  useTransform,
-  AnimatePresence,
-} from "framer-motion";
-import { Terminal, Code2, Cpu, Database, Globe, Zap } from "lucide-react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Code2, Cpu, Database, Globe } from "lucide-react";
 
-const CyberSkills = () => {
+const ProfessionalSkills = () => {
   const [hoveredSkill, setHoveredSkill] = useState(null);
-  const [matrixRain, setMatrixRain] = useState([]);
-  const [glitchText, setGlitchText] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
-  const skillsData = [
+  const skillCategories = [
     {
-      name: "JavaScript.exe",
-      icon: <Code2 className="w-6 h-6" />,
-      level: 90,
-      color: "#f7df1e",
-      status: "ACTIVE",
-      type: "FRONTEND",
+      name: "All",
+      gradient: "from-slate-600 to-slate-800",
+      icon: <Globe className="w-5 h-5" />,
     },
     {
-      name: "React.sys",
-      icon: <Globe className="w-6 h-6" />,
-      level: 85,
-      color: "#61dafb",
-      status: "RUNNING",
-      type: "FRAMEWORK",
+      name: "Frontend",
+      gradient: "from-blue-600 to-indigo-700",
+      icon: <Code2 className="w-5 h-5" />,
     },
     {
-      name: "Python.bin",
-      icon: <Terminal className="w-6 h-6" />,
-      level: 70,
-      color: "#3776ab",
-      status: "STABLE",
-      type: "BACKEND",
+      name: "Backend",
+      gradient: "from-emerald-600 to-teal-700",
+      icon: <Database className="w-5 h-5" />,
     },
     {
-      name: "Java.jar",
-      icon: <Cpu className="w-6 h-6" />,
-      level: 60,
-      color: "#f89820",
-      status: "LOADED",
-      type: "SYSTEM",
+      name: "Frameworks",
+      gradient: "from-violet-600 to-purple-700",
+      icon: <Globe className="w-5 h-5" />,
     },
     {
-      name: "MongoDB.db",
-      icon: <Database className="w-6 h-6" />,
-      level: 55,
-      color: "#4db33d",
-      status: "CONNECTED",
-      type: "DATABASE",
-    },
-    {
-      name: "HTML.html",
-      icon: <Code2 className="w-6 h-6" />,
-      level: 95,
-      color: "#e34c26",
-      status: "ACTIVE",
-      type: "FRONTEND",
-    },
-    {
-      name: "CSS.css",
-      icon: <Code2 className="w-6 h-6" />,
-      level: 90,
-      color: "#264de4",
-      status: "ACTIVE",
-      type: "FRONTEND",
-    },
-    {
-      name: "MySQL.sql",
-      icon: <Database className="w-6 h-6" />,
-      level: 75,
-      color: "#4479a1",
-      status: "STABLE",
-      type: "DATABASE",
-    },
-    {
-      name: "React Native.sys",
-      icon: <Globe className="w-6 h-6" />,
-      level: 80,
-      color: "#61dafb",
-      status: "RUNNING",
-      type: "FRAMEWORK",
-    },
-    {
-      name: "C#.exe",
-      icon: <Terminal className="w-6 h-6" />,
-      level: 70,
-      color: "#239120",
-      status: "STABLE",
-      type: "BACKEND",
-    },
-    {
-      name: "PHP.php",
-      icon: <Code2 className="w-6 h-6" />,
-      level: 65,
-      color: "#777bb4",
-      status: "ACTIVE",
-      type: "BACKEND",
+      name: "Systems",
+      gradient: "from-amber-600 via-yellow-500 to-orange-400",
+      icon: <Cpu className="w-5 h-5" />,
     },
   ];
 
-  // Matrix rain effect
-  useEffect(() => {
-    const characters =
-      "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-    const generateRain = () => {
-      return Array.from({ length: 25 }, () => ({
-        x: Math.random() * 100,
-        y: -Math.random() * 100,
-        char: characters[Math.floor(Math.random() * characters.length)],
-        speed: 0.5 + Math.random() * 2,
-        opacity: Math.random(),
-      }));
-    };
+  const skillsData = [
+    {
+      name: "JavaScript",
+      level: 90,
+      category: "Frontend",
+      tech: ["ES6+", "TypeScript", "Performance Optimization"],
+    },
+    {
+      name: "React",
+      level: 85,
+      category: "Frameworks",
+      tech: ["Advanced Hooks", "State Management", "Performance"],
+    },
+    {
+      name: "Python",
+      level: 70,
+      category: "Backend",
+      tech: ["Django", "RESTful APIs", "Microservices"],
+    },
+    {
+      name: "Java",
+      level: 60,
+      category: "Systems",
+      tech: ["Enterprise Java", "Spring Boot", "Microservices"],
+    },
+    {
+      name: "Database Design",
+      level: 55,
+      category: "Backend",
+      tech: ["SQL", "NoSQL", "Data Modeling"],
+    },
+    {
+      name: "Frontend Architecture",
+      level: 95,
+      category: "Frontend",
+      tech: ["Responsive Design", "Performance", "Accessibility"],
+    },
+    {
+      name: "Enterprise Frameworks",
+      level: 80,
+      category: "Frameworks",
+      tech: [".NET Core", "Spring", "Node.js"],
+    },
+    {
+      name: "Systems Design",
+      level: 70,
+      category: "Systems",
+      tech: ["Architecture", "Scalability", "Security"],
+    },
+    {
+      name: "Node.js",
+      level: 75,
+      category: "Backend",
+      tech: ["Express.js", "REST APIs", "GraphQL"],
+    },
+    {
+      name: "Tailwind CSS",
+      level: 85,
+      category: "Frontend",
+      tech: ["Utility-First", "Responsive Design", "Dark Mode"],
+    },
+    {
+      name: "Framer Motion",
+      level: 80,
+      category: "Frontend",
+      tech: ["Animations", "Gesture Handling", "Variants"],
+    },
+    
+  ];
 
-    setMatrixRain(generateRain());
-    const interval = setInterval(() => {
-      setMatrixRain((prev) =>
-        prev.map((drop) => ({
-          ...drop,
-          y: drop.y > 100 ? -10 : drop.y + drop.speed,
-          char:
-            Math.random() < 0.1
-              ? characters[Math.floor(Math.random() * characters.length)]
-              : drop.char,
-          opacity: Math.random(),
-        }))
-      );
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  // Glitch effect for title
-  useEffect(() => {
-    const glitchInterval = setInterval(() => {
-      setGlitchText(true);
-      setTimeout(() => setGlitchText(false), 200);
-    }, 3000);
-    return () => clearInterval(glitchInterval);
-  }, []);
+  const filteredSkills =
+    selectedCategory === "All"
+      ? skillsData
+      : skillsData.filter((skill) => skill.category === selectedCategory);
 
   return (
-    <motion.section
-      id="skills"
-      className="relative min-h-screen py-20 overflow-hidden text-green-400 dark:bg-black bg-gradient-to-b from-black/50 via-transparent to-black/50"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-    >
-      {/* Matrix Rain Background */}
-      <div className="absolute inset-0 opacity-20">
-        {matrixRain.map((drop, i) => (
-          <motion.div
-            key={i}
-            className="absolute font-mono text-xl text-green-500"
-            animate={{
-              y: [`${drop.y}%`, `${drop.y + 100}%`],
-              opacity: [drop.opacity, 0],
-            }}
-            transition={{
-              duration: drop.speed * 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            style={{ left: `${drop.x}%` }}
-          >
-            {drop.char}
-          </motion.div>
-        ))}
+    <section id="skills" className="relative min-h-screen py-16 ">
+      {/* Subtle Background Pattern */}
+      <div className="absolute inset-0 w-full h-full">
+        <div className="absolute top-0 left-0 rounded-full w-96 h-96 bg-gradient-to-r from-violet-500/20 to-fuchsia-500/20 blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 rounded-full w-96 h-96 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 blur-3xl animate-pulse" />
       </div>
+
+      
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.05)_1px,transparent_1px)] 
+        bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]" />
 
       <div className="container relative z-10 px-4 mx-auto">
-        {/* Terminal-style Header */}
-        <motion.div
-          className="mb-16 font-mono text-center"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <div className="inline-block p-2 mb-4 text-sm border rounded-lg border-green-500/30 bg-black/50">
-            <span className="text-green-500">root@system</span>
-            <span className="text-gray-500">:</span>
-            <span className="text-blue-400">~/skills</span>
-            <span className="text-gray-500">$</span>
-            <span className="ml-2">cat abilities.sh</span>
-          </div>
-
-          <h2
-            className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-green-400 ${
-              glitchText ? "animate-pulse" : ""
-            }`}
-          >
-            {"<System_Capabilities />"}
+        {/* Section Header */}
+        {/* Section Header */}
+        <div className="mb-16 text-center">
+            <div className="inline-flex items-center px-4 py-2 mb-8 text-sm font-medium border rounded-full mt-[70px] bg-white/5 border-white/10 backdrop-blur-sm">
+              <span className="text-gray-300">Proficiency </span>
+            </div>
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-3xl font-semibold tracking-tight text-slate-100 sm:text-4xl">
+            Professional Expertise
           </h2>
-          <h3 className="mt-4">
-            {"ALERT!!! Don’t.touch_anything() || dragThem.nowExplodes();"}{" "}
-          </h3>
-        </motion.div>
+          <p className="max-w-2xl mx-auto text-slate-400">
+            Comprehensive overview of technical proficiencies and specialized
+            domains
+          </p>
+        </div>
+        </div>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {skillsData.map((skill, index) => {
-            const x = useMotionValue(0);
-            const y = useMotionValue(0);
-            const rotateX = useTransform(y, [-100, 100], [30, -30]);
-            const rotateY = useTransform(x, [-100, 100], [-30, 30]);
+        {/* Category Selection */}
+        <div className="grid grid-cols-2 gap-3 mb-10 md:grid-cols-5">
+          {skillCategories.map((category) => (
+            <button
+              key={category.name}
+              onClick={() => setSelectedCategory(category.name)}
+              className={`px-4 py-3 rounded-lg transition-all ${
+                selectedCategory === category.name
+                  ? `bg-gradient-to-r ${category.gradient} shadow-lg`
+                  : "bg-slate-800/50 hover:bg-slate-800"
+              }`}
+            >
+              <div className="flex items-center justify-center gap-2">
+                {category.icon}
+                <span className="text-sm font-medium">{category.name}</span>
+              </div>
+            </button>
+          ))}
+        </div>
 
-            return (
-              <motion.div
-                key={index}
-                className="relative font-mono border rounded-lg border-green-500/30 bg-black/50 backdrop-blur-sm"
-                style={{ x, y, rotateX, rotateY, perspective: 1000 }}
-                drag
-                dragElastic={0.1}
-                whileHover={{
-                  scale: 1.02,
-                  boxShadow: `0 0 20px ${skill.color}30`,
-                }}
-                whileTap={{ scale: 0.95 }}
-                onHoverStart={() => setHoveredSkill(skill.name)}
-                onHoverEnd={() => setHoveredSkill(null)}
-              >
-                <div className="p-6 space-y-4">
-                  {/* Skill Header */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <span className="text-green-400">{skill.icon}</span>
-                      <span className="text-xl font-bold">{skill.name}</span>
+        {/* Skills Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <AnimatePresence mode="wait">
+            {filteredSkills.map((skill, index) => {
+              const category = skillCategories.find(
+                (c) => c.name === skill.category
+              );
+
+              return (
+                <motion.div
+                  key={skill.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  className="relative p-6 transition-all bg-slate-800/50 rounded-xl hover:bg-slate-800/70"
+                  onMouseEnter={() => setHoveredSkill(skill.name)}
+                  onMouseLeave={() => setHoveredSkill(null)}
+                >
+                  <div className="space-y-4">
+                    {/* Skill Header */}
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-medium text-slate-200">
+                        {skill.name}
+                      </h3>
+                      <span
+                        className={`px-2 py-1 text-xs font-medium rounded-md bg-gradient-to-r ${category?.gradient}`}
+                      >
+                        {skill.level}%
+                      </span>
                     </div>
-                    <span className="px-2 py-1 text-xs border rounded-full border-green-500/30">
-                      {skill.status}
-                    </span>
+
+                    {/* Progress Bar */}
+                    <div className="h-1.5 rounded-full bg-slate-700/50">
+                      <motion.div
+                        className={`h-full rounded-full bg-gradient-to-r ${category?.gradient}`}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${skill.level}%` }}
+                        transition={{ duration: 0.8, delay: index * 0.1 }}
+                      />
+                    </div>
+
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2">
+                      {skill.tech.map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2 py-1 text-xs font-medium rounded-md bg-slate-700/50 text-slate-300"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
-                  {/* Skill Type */}
-                  <div className="text-sm text-green-300/70">
-                    {"// Type: "}
-                    {skill.type}
-                  </div>
-
-                  {/* Progress Bar */}
-                  <div className="relative h-2 overflow-hidden rounded-full bg-green-900/30">
-                    <motion.div
-                      className="absolute top-0 left-0 h-full bg-green-400"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${skill.level}%` }}
-                      transition={{ duration: 1, delay: index * 0.1 }}
-                    />
-                  </div>
-
-                  {/* Skill Level */}
-                  <div className="flex justify-between text-sm">
-                    <span>Proficiency Level:</span>
-                    <span className="text-green-300">{skill.level}%</span>
-                  </div>
-
-                  {/* Loading Line Effect */}
+                  {/* Subtle Hover Effect */}
                   {hoveredSkill === skill.name && (
-                    <motion.div
-                      className="absolute w-full h-0.5 bg-green-500/20"
-                      animate={{
-                        top: ["0%", "100%"],
-                      }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
+                    <div className="absolute inset-0 transition-opacity bg-gradient-to-r from-transparent via-slate-400/5 to-transparent rounded-xl" />
                   )}
-                </div>
-              </motion.div>
-            );
-          })}
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
-export default CyberSkills;
+export default ProfessionalSkills;

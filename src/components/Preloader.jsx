@@ -1,133 +1,132 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Code2, Terminal, Database, Cpu, Binary, Cloud,
-  GitBranch, Blocks, Wifi, Shield, Lock, Server,
-  Globe, Bug, Keyboard, Monitor, Network, Radio,
-  Hash, FileCode, Box, Layout, Layers, Palette
+  GitBranch, Blocks, Wifi, Shield, Lock,
+  Hash, FileCode, Box
 } from 'lucide-react';
 
 const Preloader = ({ onLoadingComplete }) => {
   const [loading, setLoading] = useState(true);
   const [progress, setProgress] = useState(0);
-  const [randomText, setRandomText] = useState('');
-  const [currentTask, setCurrentTask] = useState('Initializing Systems');
+  const [currentTask, setCurrentTask] = useState('Initializing');
+  const [exitAnimation, setExitAnimation] = useState(false);
   
-  const webDevTasks = [
-    'Loading React Components',
-    'Compiling TypeScript',
-    'Optimizing CSS Modules',
-    'Bundling Assets'
+  const tasks = [
+    'Loading Components',
+    'Building Interface',
+    'Optimizing Assets',
+    'Finalizing Setup'
   ];
 
   useEffect(() => {
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%^&*";
-    
-    // Faster random text updates
-    const interval = setInterval(() => {
-      setRandomText(Array(8).fill(0).map(() => 
-        chars[Math.floor(Math.random() * chars.length)]
-      ).join(''));
-    }, 50);
-
-    // Faster task updates
     const taskInterval = setInterval(() => {
-      const taskIndex = Math.floor((progress / 100) * webDevTasks.length);
-      setCurrentTask(webDevTasks[taskIndex] || webDevTasks[webDevTasks.length - 1]);
+      const taskIndex = Math.floor((progress / 100) * tasks.length);
+      setCurrentTask(tasks[taskIndex] || tasks[tasks.length - 1]);
     }, 150);
 
-    // Faster progress updates - complete in ~2.5 seconds
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           clearInterval(progressInterval);
           return 100;
         }
-        return prev + 2; // Increment by 2 for faster progress
+        return prev + 2;
       });
     }, 50);
 
-    // Complete in 3 seconds maximum
-    const timer = setTimeout(() => {
+    const exitTimer = setTimeout(() => {
+      setExitAnimation(true);
+    }, 2700);
+
+    const completeTimer = setTimeout(() => {
       setLoading(false);
       if (onLoadingComplete) {
         onLoadingComplete();
       }
-    }, 400);
+    }, 3000);
     
     return () => {
-      clearTimeout(timer);
-      clearInterval(interval);
       clearInterval(progressInterval);
       clearInterval(taskInterval);
+      clearTimeout(exitTimer);
+      clearTimeout(completeTimer);
     };
   }, [onLoadingComplete, progress]);
 
   if (!loading) return null;
 
-  const icons = [
-    FileCode, Layout, Layers, Palette,
-    Code2, Terminal, Database, Cpu, Binary, Cloud, 
-    GitBranch, Blocks, Wifi, Shield, Lock
-  ];
+  const icons = [Code2, Terminal, Database, Cpu, Binary, Cloud, GitBranch];
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black z-[100]">
-      <div className={`transition-opacity duration-300 ${loading ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="absolute font-mono text-xl transform -translate-x-1/2 top-4 left-1/2">
-          <span className="text-cyan-500">{'<'}</span>
-          <span className="font-bold text-green-500">Werosh Kriyanjala</span>
-          <span className="text-cyan-500">{' />'}</span>
+    <div className={`fixed inset-0 flex items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 z-[100] 
+      transition-opacity duration-300 ${exitAnimation ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`transition-all duration-300 ${exitAnimation ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}>
+        {/* Animated Background Grid */}
+        <div className="absolute inset-0 overflow-hidden opacity-20">
+          <div className="absolute inset-0 grid grid-cols-8 gap-4">
+            {Array(64).fill(0).map((_, i) => (
+              <div 
+                key={i}
+                className="w-full h-full rounded-full bg-cyan-500 blur-xl"
+                style={{
+                  animation: `pulse 2s infinite`,
+                  animationDelay: `${i * 0.1}s`,
+                  opacity: 0.1
+                }}
+              />
+            ))}
+          </div>
         </div>
 
+        {/* Main Content */}
         <div className="relative flex flex-col items-center">
-          <div className="mt-8 font-mono text-lg">
-            <span className="text-cyan-500">{'>'}</span>
-            <span className="ml-2 text-green-500">{currentTask}</span>
-            <span className="ml-2 text-cyan-500">{randomText}</span>
-            <span className="ml-1 text-white animate-blink">_</span>
+          {/* Logo/Name Section */}
+          <div className={`mb-12 transition-all duration-300 ${exitAnimation ? 'opacity-0 -translate-y-8' : 'opacity-100'}`}>
+            <div className="relative">
+              <div className="text-4xl font-bold text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-500 bg-clip-text">
+                Werosh Kriyanjala
+              </div>
+              <div className="mt-2 font-mono text-sm text-center text-cyan-400">{currentTask}</div>
+            </div>
           </div>
 
-          <div className="flex gap-4 mt-4 font-mono text-sm">
-            <span className="text-blue-400">
-              <Hash className="inline mr-1" size={14} />
-              Bundle Size: {(progress * 0.5).toFixed(1)}MB
-            </span>
-            <span className="text-green-400">
-              <Box className="inline mr-1" size={14} />
-              Modules: {Math.floor(progress * 0.3)}
-            </span>
-          </div>
-
-          <div className="mt-6 w-80">
-            <div className="h-2 overflow-hidden bg-gray-900 border rounded-full border-cyan-900">
+          {/* Progress Bar */}
+          <div className={`w-96 transition-all duration-300 ${exitAnimation ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+            <div className="relative h-1 overflow-hidden rounded-full bg-slate-800">
               <div 
-                className="relative h-full transition-all duration-150 bg-gradient-to-r from-cyan-500 via-green-500 to-blue-500"
+                className="h-full transition-all duration-150 bg-gradient-to-r from-cyan-500 via-blue-500 to-cyan-400"
                 style={{ width: `${progress}%` }}
               >
-                <div className="absolute inset-0 bg-white animate-pulse-fast opacity-30" />
+                <div className="absolute inset-0 bg-white animate-pulse opacity-30" />
               </div>
             </div>
-            <div className="flex justify-between mt-2 font-mono text-sm">
-              <span className="text-cyan-500">{currentTask}</span>
-              <span className="text-green-500">{progress}%</span>
+            
+            {/* Progress Stats */}
+            <div className="flex justify-between mt-4 font-mono text-sm text-cyan-400">
+              <span>{progress}% Complete</span>
+              <span>{currentTask}</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap justify-center max-w-lg gap-4 mt-8">
+          {/* Floating Icons */}
+          <div className="flex justify-center gap-6 mt-12">
             {icons.map((Icon, index) => (
               <div 
                 key={index} 
-                className="p-2 transition-transform transform bg-gray-900 bg-opacity-50 rounded-lg hover:scale-110"
+                className={`transition-all duration-300 ${
+                  exitAnimation ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'
+                }`}
                 style={{
-                  animation: 'float 1s infinite',
-                  animationDelay: `${index * 0.05}s`
+                  transitionDelay: `${index * 0.02}s`
                 }}
               >
                 <Icon 
-                  className="text-cyan-500" 
-                  size={20}
+                  className="text-cyan-400" 
+                  size={24}
                   style={{
-                    filter: 'drop-shadow(0 0 5px #0ff)'
+                    filter: 'drop-shadow(0 0 10px rgba(34, 211, 238, 0.5))',
+                    animation: `float ${1 + index * 0.1}s infinite alternate ease-in-out`,
+                    animationDelay: `${index * 0.1}s`
                   }}
                 />
               </div>

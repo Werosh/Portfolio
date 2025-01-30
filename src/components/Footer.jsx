@@ -1,116 +1,195 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Terminal, Code } from "lucide-react";
+import React, { useState } from "react";
+import { Github, ExternalLink, Mail, Linkedin } from "lucide-react";
+import emailjs from "emailjs-com"; // Import EmailJS
 
-const Footer = () => {
-  const [matrixChars, setMatrixChars] = useState([]);
+const ModernFooter = () => {
+  const [email, setEmail] = useState(""); // State to manage email input
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to handle the submission state
+  const [successMessage, setSuccessMessage] = useState(""); // Success message after submission
 
-  // Matrix character effect for the borders
-  useEffect(() => {
-    const chars = "アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン";
-    const generateChars = () => {
-      return Array.from({ length: 20 }, () => ({
-        char: chars[Math.floor(Math.random() * chars.length)],
-        opacity: Math.random() * 0.5 + 0.25
-      }));
-    };
+  const currentYear = new Date().getFullYear();
 
-    setMatrixChars(generateChars());
-    const interval = setInterval(() => {
-      setMatrixChars(generateChars());
-    }, 1000);
+  const socialLinks = [
+    {
+      icon: <Github size={18} />,
+      label: "GitHub",
+      href: "https://github.com/Werosh",
+    },
+    {
+      icon: <Linkedin size={18} />,
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/werosh-kriyanjala-0318b1292/",
+    },
+    {
+      icon: <Mail size={18} />,
+      label: "Email",
+      href: "mailto:weroshprofy@gmail.com",
+    },
+  ];
 
-    return () => clearInterval(interval);
-  }, []);
+  // Function to handle the subscription form submission
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Using EmailJS to send email
+    emailjs
+      .sendForm(
+        "service_d6tro1e",
+        "template_2o9roif",
+        e.target,
+        "EzReJSUxpdt8P7ZqI"
+      )
+      .then(
+        (result) => {
+          setSuccessMessage("Thank you for subscribing!");
+          setEmail(""); // Clear input field
+          setIsSubmitting(false); // Reset the button state
+        },
+        (error) => {
+          setSuccessMessage("Subscription failed. Please try again.");
+          setIsSubmitting(false);
+        }
+      );
+  };
 
   return (
-    <div className="relative py-8 overflow-hidden dark:bg-black bg-gradient-to-b from-black/50 via-transparent to-black/50">
-      {/* Matrix Border Effect */}
-      <div className="absolute top-0 left-0 right-0 flex justify-between px-4 opacity-50">
-        {matrixChars.map((item, i) => (
-          <motion.span
-            key={i}
-            className="font-mono text-green-700"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: item.opacity }}
-            transition={{ duration: 0.5 }}
-          >
-            {item.char}
-          </motion.span>
-        ))}
+    <footer className="relative w-full overflow-hidden bg-black/90">
+      {/* Gradient Orbs */}
+      <div className="absolute inset-0 w-full h-full">
+        <div
+          className="absolute w-[300px] h-[300px] rounded-full bg-gradient-to-r from-violet-500/10 to-fuchsia-500/10 blur-3xl 
+          animate-pulse bottom-[-150px] left-[-100px]"
+        />
+        <div
+          className="absolute w-[300px] h-[300px] rounded-full bg-gradient-to-r from-cyan-500/10 to-blue-500/10 blur-3xl 
+          animate-pulse bottom-[-100px] right-[-100px]"
+          style={{ animationDelay: "1s" }}
+        />
       </div>
 
-      {/* Main Content */}
-      <motion.div
-        className="relative z-10 space-y-4 text-center"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        {/* Terminal-style header */}
-        <div className="inline-block px-4 py-2 mx-auto mb-4 font-mono text-sm border rounded-lg border-green-500/30 bg-black/50">
-          <span className="text-green-500">system</span>
-          <span className="text-gray-500">@</span>
-          <span className="text-green-400">footer</span>
-          <span className="text-gray-500">:~$</span>
-          <span className="ml-2 text-green-400">echo "STATUS: ONLINE"</span>
-        </div>
+      {/* Grid Pattern */}
+      <div
+        className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.025)_1px,transparent_1px)] 
+        bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,black,transparent)]"
+      />
 
-        {/* Copyright section */}
-        <div className="relative px-6 py-4 mx-auto space-y-2 font-mono max-w-fit">
-          <div className="flex items-center justify-center space-x-2">
-            <Terminal className="w-4 h-4 text-green-500" />
-            <motion.p
-              className="text-lg tracking-wider text-green-400"
-              whileHover={{ scale: 1.05 }}
-            >
-              <span className="text-gray-500">&lt;</span>
-              &copy; {new Date().getFullYear()} | Designed by Werosh Kriyanjala
-              <span className="text-gray-500">&gt;</span>
-            </motion.p>
+      <div className="relative z-10 px-6 py-12">
+        <div className="container mx-auto">
+          {/* Main Footer Content */}
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            {/* Brand Section */}
+            <div className="space-y-4">
+              <h3 className="text-xl font-bold text-transparent bg-gradient-to-r from-violet-500 to-indigo-500 bg-clip-text">
+                Werosh Kriyanjala
+              </h3>
+              <p className="text-sm text-gray-400">
+                Crafting digital experiences with passion and precision. Based
+                in Sri Lanka.
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-300">
+                Quick Links
+              </h4>
+              <ul className="space-y-2 text-sm text-gray-400">
+                <li>
+                  <a
+                    href="#projects"
+                    className="transition-colors hover:text-white"
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#about"
+                    className="transition-colors hover:text-white"
+                  >
+                    About
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#contact"
+                    className="transition-colors hover:text-white"
+                  >
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            {/* Social Links */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-300">Connect</h4>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((link, index) => (
+                  <a
+                    key={index}
+                    href={link.href}
+                    className="inline-flex items-center gap-2 px-3 py-2 text-sm transition-all border rounded-full bg-white/5 hover:bg-white/10 backdrop-blur-sm border-white/10 hover:scale-105"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {link.icon}
+                    <span className="text-gray-300">{link.label}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Newsletter */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-300">
+                Stay Updated
+              </h4>
+              <form onSubmit={handleSubscribe} className="flex gap-2">
+                <input
+                  type="email"
+                  name="user_email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 px-4 py-2 text-sm rounded-full bg-white/5 border-white/10 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={`inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition-all rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 hover:shadow-lg hover:shadow-violet-500/25 hover:scale-105 ${
+                    isSubmitting ? "animate-pulse opacity-50" : ""
+                  }`}
+                >
+                  <ExternalLink size={16} />
+                  {isSubmitting ? "Submitting..." : "Subscribe"}
+                </button>
+              </form>
+              {successMessage && (
+                <p className="mt-2 text-sm text-green-400">{successMessage}</p>
+              )}
+            </div>
           </div>
-          
-          <motion.div
-            className="flex items-center justify-center space-x-2"
-            whileHover={{ scale: 1.05 }}
-          >
-            <Code className="w-4 h-4 text-green-400" />
-            <p className="text-sm tracking-wide text-green-900 dark:text-green-300">
-              <span className="text-gray-500">//$</span> Exploring the Cosmos of Code
+
+          {/* Bottom Bar */}
+          <div className="flex flex-col items-center justify-between gap-4 pt-8 mt-12 text-sm border-t md:flex-row border-white/10">
+            <p className="text-gray-400">
+              © {currentYear} Werosh Kriyanjala. All rights reserved.
             </p>
-          </motion.div>
-
-          {/* Scanning line effect */}
-          <motion.div
-            className="absolute left-0 w-full h-0.5 bg-green-500/20"
-            animate={{
-              top: ["0%", "100%"],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          />
+            <div className="flex gap-4 text-gray-400">
+              <a href="/privacy" className="transition-colors hover:text-white">
+                Privacy Policy
+              </a>
+              <a href="/terms" className="transition-colors hover:text-white">
+                Terms of Service
+              </a>
+            </div>
+          </div>
         </div>
-      </motion.div>
-
-      {/* Bottom Matrix Border */}
-      <div className="absolute bottom-0 left-0 right-0 flex justify-between px-4 opacity-50">
-        {matrixChars.map((item, i) => (
-          <motion.span
-            key={`bottom-${i}`}
-            className="font-mono text-green-500"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: item.opacity }}
-            transition={{ duration: 0.5 }}
-          >
-            {item.char}
-          </motion.span>
-        ))}
       </div>
-    </div>
+    </footer>
   );
 };
 
-export default Footer;
+export default ModernFooter;
